@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>JSM Command Center | Branded Materials Generator</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script>
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "primary": "#00327d",
+        "primary-container": "#0047ab",
+        "primary-fixed": "#dae2ff",
+        "primary-fixed-dim": "#b1c5ff",
+        "on-primary": "#ffffff",
+        "on-primary-container": "#a5bdff",
+        "on-primary-fixed": "#001946",
+        "secondary": "#b6171e",
+        "secondary-container": "#da3433",
+        "secondary-fixed": "#ffdad6",
+        "secondary-fixed-dim": "#ffb3ac",
+        "on-secondary": "#ffffff",
+        "on-secondary-container": "#fffbff",
+        "tertiary": "#2c374a",
+        "tertiary-fixed": "#d8e3fb",
+        "tertiary-fixed-dim": "#bcc7de",
+        "tertiary-container": "#434e62",
+        "on-tertiary": "#ffffff",
+        "on-tertiary-fixed": "#111c2d",
+        "surface": "#f7f9fb",
+        "surface-bright": "#f7f9fb",
+        "surface-dim": "#d8dadc",
+        "surface-variant": "#e0e3e5",
+        "surface-container": "#eceef0",
+        "surface-container-low": "#f2f4f6",
+        "surface-container-high": "#e6e8ea",
+        "surface-container-highest": "#e0e3e5",
+        "surface-container-lowest": "#ffffff",
+        "on-surface": "#191c1e",
+        "on-surface-variant": "#434653",
+        "outline": "#737784",
+        "outline-variant": "#c3c6d5",
+        "error": "#ba1a1a",
+        "error-container": "#ffdad6",
+        "inverse-surface": "#2d3133",
+        "inverse-on-surface": "#eff1f3",
+      },
+      fontFamily: {
+        "headline": ["Manrope"],
+        "body": ["Inter"],
+        "label": ["Inter"]
+      },
+    },
+  },
+}
+</script>
+<style>
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+body { font-family: 'Inter', sans-serif; }
+h1, h2, h3, h4, h5 { font-family: 'Manrope', sans-serif; }
+.nav-item { transition: all 0.2s; }
+.nav-item:hover { transform: translateX(4px); }
+.template-card { transition: all 0.3s; }
+.template-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px -8px rgba(0,50,125,0.15); }
+.fade-in { animation: fadeIn 0.3s ease-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.preview-frame { border: none; width: 100%; height: 100%; }
+.modal-overlay { backdrop-filter: blur(4px); }
+select option { color: #191c1e; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #c3c6d5; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #737784; }
+</style>
+</head>
+<body class="bg-surface text-on-surface flex h-screen overflow-hidden">
+
+<!-- Sidebar -->
+<aside id="sidebar" class="h-screen w-64 bg-white flex flex-col p-4 gap-1 flex-shrink-0 z-40 border-r border-outline-variant/20">
+  <div class="px-3 py-6 mb-2">
+    <h1 class="font-headline font-black text-primary text-xl tracking-tighter uppercase">Command Center</h1>
+    <p class="text-[10px] text-outline uppercase tracking-[0.15em] mt-1 font-label font-bold">JSM Marketing Hub</p>
+  </div>
+
+  <!-- Client Selector -->
+  <div class="px-3 mb-4">
+    <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1.5 block">Active Client</label>
+    <select id="clientSelector" onchange="switchClient()" class="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-3 py-2 text-sm font-medium text-primary focus:ring-2 focus:ring-primary/20 focus:border-primary/30 outline-none">
+      <option value="jsm">JSM Consulting (Default)</option>
+    </select>
+  </div>
+
+  <nav class="flex-grow space-y-1">
+    <a onclick="navigateTo('dashboard')" class="nav-item flex items-center gap-3 px-4 py-2.5 rounded-lg cursor-pointer text-slate-500 hover:bg-slate-100 text-sm font-medium" data-page="dashboard">
+      <span class="material-symbols-outlined text-lg">dashboard</span> Dashboard
+    </a>
+    <a onclick="navigateTo('clients')" class="nav-item flex items-center gap-3 px-4 py-2.5 rounded-lg cursor-pointer text-slate-500 hover:bg-slate-100 text-sm font-medium" data-page="clients">
+      <span class="material-symbols-outlined text-lg">business</span> Client Profiles
+    </a>
+    <a onclick="navigateTo('templates')" class="nav-item flex items-center gap-3 px-4 py-2.5 rounded-lg cursor-pointer text-slate-500 hover:bg-slate-100 text-sm font-medium" data-page="templates">
+      <span class="material-symbols-outlined text-lg">grid_view</span> Templates
+    </a>
+    <a onclick="navigateTo('generator')" class="nav-item flex items-center gap-3 px-4 py-2.5 rounded-lg cursor-pointer text-slate-500 hover:bg-slate-100 text-sm font-medium" data-page="generator">
+      <span class="material-symbols-outlined text-lg">smart_toy</span> Generator
+    </a>
+    <a onclick="navigateTo('ratecard')" class="nav-item flex items-center gap-3 px-4 py-2.5 rounded-lg cursor-pointer text-slate-500 hover:bg-slate-100 text-sm font-medium" data-page="ratecard">
+      <span class="material-symbols-outlined text-lg">payments</span> Rate Card Builder
+    </a>
+    <a onclick="navigateTo('casestudy')" class="nav-item flex items-center gap-3 px-4 py-2.5 rounded-lg cursor-pointer text-slate-500 hover:bg-slate-100 text-sm font-medium" data-page="casestudy">
+      <span class="material-symbols-outlined text-lg">article</span> Case Study Builder
+    </a>
+    <a onclick="navigateTo('calculator')" class="nav-item flex items-center gap-3 px-4 py-2.5 rounded-lg cursor-pointer text-slate-500 hover:bg-slate-100 text-sm font-medium" data-page="calculator">
+      <span class="material-symbols-outlined text-lg">calculate</span> Profit Calculator
+    </a>
+    <a onclick="navigateTo('pitchdeck')" class="nav-item flex items-center gap-3 px-4 py-2.5 rounded-lg cursor-pointer text-slate-500 hover:bg-slate-100 text-sm font-medium" data-page="pitchdeck">
+      <span class="material-symbols-outlined text-lg">present_to_all</span> Pitch Deck
+    </a>
+  </nav>
+
+  <div class="mt-auto pt-4 space-y-3">
+    <button onclick="navigateTo('clients'); setTimeout(()=>document.getElementById('addClientBtn')?.click(), 100)" class="w-full bg-primary text-white py-2.5 rounded-lg text-sm font-bold flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all">
+      <span class="material-symbols-outlined text-sm">add</span> New Client
+    </button>
+    <div class="flex items-center gap-3 px-2 py-3 border-t border-outline-variant/20">
+      <div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-white text-xs font-bold">MR</div>
+      <div>
+        <p class="text-xs font-bold text-on-surface">Maria R.</p>
+        <p class="text-[10px] text-outline">JSM Admin</p>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- Main Content -->
+<main class="flex-grow overflow-y-auto bg-surface">
+
+  <!-- ==================== DASHBOARD PAGE ==================== -->
+  <div id="page-dashboard" class="page hidden">
+    <header class="sticky top-0 z-30 bg-white/80 backdrop-blur-md px-10 py-6 flex justify-between items-center shadow-sm">
+      <div>
+        <h2 class="text-2xl font-extrabold tracking-tight text-primary">Dashboard</h2>
+        <p class="text-on-surface-variant text-sm mt-0.5">Overview of your branded materials and client activity.</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <span class="text-[10px] font-bold uppercase tracking-widest text-outline" id="dashboardDate"></span>
+      </div>
+    </header>
+    <div class="px-10 py-8 space-y-10 fade-in">
+      <!-- Stats Row -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div class="bg-white p-6 rounded-xl shadow-sm">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 bg-primary-fixed rounded-lg flex items-center justify-center">
+              <span class="material-symbols-outlined text-primary">business</span>
+            </div>
+            <span class="text-[10px] font-bold uppercase tracking-widest text-outline">Clients</span>
+          </div>
+          <p class="text-3xl font-headline font-black text-primary" id="statClients">0</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-sm">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 bg-tertiary-fixed rounded-lg flex items-center justify-center">
+              <span class="material-symbols-outlined text-tertiary">description</span>
+            </div>
+            <span class="text-[10px] font-bold uppercase tracking-widest text-outline">Materials</span>
+          </div>
+          <p class="text-3xl font-headline font-black text-primary" id="statMaterials">0</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-sm">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 bg-secondary-fixed rounded-lg flex items-center justify-center">
+              <span class="material-symbols-outlined text-secondary">grid_view</span>
+            </div>
+            <span class="text-[10px] font-bold uppercase tracking-widest text-outline">Templates</span>
+          </div>
+          <p class="text-3xl font-headline font-black text-primary">6</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-sm">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 bg-primary-fixed rounded-lg flex items-center justify-center">
+              <span class="material-symbols-outlined text-primary">trending_up</span>
+            </div>
+            <span class="text-[10px] font-bold uppercase tracking-widest text-outline">This Month</span>
+          </div>
+          <p class="text-3xl font-headline font-black text-secondary" id="statMonth">0</p>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div>
+        <h3 class="text-lg font-bold tracking-tight mb-4 border-l-4 border-secondary pl-3">Quick Create</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div onclick="navigateTo('ratecard')" class="template-card bg-white p-6 rounded-xl cursor-pointer border border-transparent hover:border-primary/10">
+            <div class="w-12 h-12 bg-primary-fixed rounded-lg flex items-center justify-center mb-4">
+              <span class="material-symbols-outlined text-primary text-2xl">payments</span>
+            </div>
+            <h4 class="font-bold text-primary text-lg">Rate Card</h4>
+            <p class="text-on-surface-variant text-sm mt-1">Custom pricing for any client or pitch.</p>
+          </div>
+          <div onclick="navigateTo('casestudy')" class="template-card bg-white p-6 rounded-xl cursor-pointer border border-transparent hover:border-primary/10">
+            <div class="w-12 h-12 bg-tertiary-fixed rounded-lg flex items-center justify-center mb-4">
+              <span class="material-symbols-outlined text-tertiary text-2xl">article</span>
+            </div>
+            <h4 class="font-bold text-primary text-lg">Case Study</h4>
+            <p class="text-on-surface-variant text-sm mt-1">Turn project data into proof files.</p>
+          </div>
+          <div onclick="navigateTo('pitchdeck')" class="template-card bg-white p-6 rounded-xl cursor-pointer border border-transparent hover:border-primary/10">
+            <div class="w-12 h-12 bg-secondary-fixed rounded-lg flex items-center justify-center mb-4">
+              <span class="material-symbols-outlined text-secondary text-2xl">present_to_all</span>
+            </div>
+            <h4 class="font-bold text-primary text-lg">Pitch Deck</h4>
+            <p class="text-on-surface-variant text-sm mt-1">White-label pitch presentations.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Materials -->
+      <div>
+        <h3 class="text-lg font-bold tracking-tight mb-4">Recent Materials</h3>
+        <div id="recentMaterials" class="space-y-3">
+          <p class="text-on-surface-variant text-sm py-8 text-center">No materials generated yet. Start by creating a client profile and selecting a template.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== CLIENTS PAGE ==================== -->
+  <div id="page-clients" class="page hidden">
+    <header class="sticky top-0 z-30 bg-white/80 backdrop-blur-md px-10 py-6 flex justify-between items-center shadow-sm">
+      <div>
+        <h2 class="text-2xl font-extrabold tracking-tight text-primary">Client Profiles</h2>
+        <p class="text-on-surface-variant text-sm mt-0.5">Manage brand DNA for each client or pitch target.</p>
+      </div>
+      <button id="addClientBtn" onclick="openClientModal()" class="bg-primary text-white px-5 py-2.5 rounded-lg font-bold text-sm flex items-center gap-2 hover:opacity-90 active:scale-95 transition-all">
+        <span class="material-symbols-outlined text-sm">add</span> Add Client
+      </button>
+    </header>
+    <div class="px-10 py-8 fade-in">
+      <div id="clientGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Client cards inserted by JS -->
+      </div>
+      <div id="noClients" class="hidden text-center py-20">
+        <span class="material-symbols-outlined text-6xl text-outline-variant mb-4">business</span>
+        <p class="text-on-surface-variant text-lg font-medium mb-2">No client profiles yet</p>
+        <p class="text-outline text-sm mb-6">Add a client to start generating branded materials.</p>
+        <button onclick="openClientModal()" class="bg-primary text-white px-6 py-3 rounded-lg font-bold hover:opacity-90 active:scale-95 transition-all">Add Your First Client</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TEMPLATES PAGE ==================== -->
+  <div id="page-templates" class="page hidden">
+    <header class="sticky top-0 z-30 bg-white/80 backdrop-blur-md px-10 py-6 shadow-sm">
+      <h2 class="text-2xl font-extrabold tracking-tight text-primary">Template Gallery</h2>
+      <p class="text-on-surface-variant text-sm mt-0.5">Browse all JSM branded material templates.</p>
+    </header>
+    <div class="px-10 py-8 fade-in">
+      <div class="grid grid-cols-12 gap-6">
+        <!-- Rate Card -->
+        <div onclick="navigateTo('ratecard')" class="col-span-12 md:col-span-7 template-card bg-white p-8 rounded-xl cursor-pointer flex flex-col justify-between border border-transparent hover:border-primary/10">
+          <div class="flex justify-between items-start">
+            <div class="w-12 h-12 bg-primary-fixed flex items-center justify-center rounded-lg text-primary">
+              <span class="material-symbols-outlined text-3xl">payments</span>
+            </div>
+            <span class="text-[10px] font-bold tracking-widest text-slate-400 uppercase">Most Used</span>
+          </div>
+          <div class="mt-6">
+            <h4 class="text-2xl font-bold text-primary">Service & Rate Card</h4>
+            <p class="text-on-surface-variant mt-2 max-w-sm">Generate a customized pricing menu with consulting tiers, regional adjustments, and client-specific branding.</p>
+          </div>
+          <div class="mt-6 flex items-center justify-between">
+            <div class="flex gap-2">
+              <span class="px-2 py-1 bg-surface-container-low rounded text-[10px] font-bold text-slate-500 uppercase">HTML</span>
+              <span class="px-2 py-1 bg-surface-container-low rounded text-[10px] font-bold text-slate-500 uppercase">PDF</span>
+            </div>
+            <div class="bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center">
+              <span class="material-symbols-outlined">arrow_forward</span>
+            </div>
+          </div>
+        </div>
+        <!-- Case Study -->
+        <div onclick="navigateTo('casestudy')" class="col-span-12 md:col-span-5 template-card bg-white p-8 rounded-xl cursor-pointer flex flex-col border border-transparent hover:border-primary/10">
+          <div class="w-12 h-12 bg-tertiary-fixed flex items-center justify-center rounded-lg text-tertiary">
+            <span class="material-symbols-outlined text-3xl">article</span>
+          </div>
+          <div class="mt-6">
+            <h4 class="text-xl font-bold text-primary">Case Study Generator</h4>
+            <p class="text-on-surface-variant mt-2">Turn raw project data into professional proof files with impact stats.</p>
+          </div>
+          <div class="mt-auto pt-6">
+            <button class="w-full py-2.5 bg-surface-container-high rounded-lg text-sm font-bold text-on-surface hover:bg-primary hover:text-white transition-colors">Start Draft</button>
+          </div>
+        </div>
+        <!-- Pitch Deck -->
+        <div onclick="navigateTo('pitchdeck')" class="col-span-12 md:col-span-4 template-card bg-white p-8 rounded-xl cursor-pointer border border-transparent hover:border-primary/10">
+          <div class="w-12 h-12 bg-secondary-fixed flex items-center justify-center rounded-lg text-secondary">
+            <span class="material-symbols-outlined text-3xl">present_to_all</span>
+          </div>
+          <h4 class="text-lg font-bold text-primary mt-6">White-Label Pitch Deck</h4>
+          <p class="text-on-surface-variant text-sm mt-2">Minimalist templates ready for client logos and custom messaging.</p>
+        </div>
+        <!-- Profit Calculator -->
+        <div onclick="navigateTo('calculator')" class="col-span-12 md:col-span-4 template-card bg-white p-8 rounded-xl cursor-pointer border border-transparent hover:border-primary/10">
+          <div class="w-12 h-12 bg-surface-container-high flex items-center justify-center rounded-lg text-primary">
+            <span class="material-symbols-outlined text-3xl">calculate</span>
+          </div>
+          <h4 class="text-lg font-bold text-primary mt-6">Profit Margin Calculator</h4>
+          <p class="text-on-surface-variant text-sm mt-2">Interactive cost comparison tool for client pitches.</p>
+        </div>
+        <!-- Ad Copy -->
+        <div onclick="navigateTo('generator')" class="col-span-12 md:col-span-4 template-card bg-primary text-white p-8 rounded-xl cursor-pointer relative overflow-hidden">
+          <div class="absolute -bottom-4 -right-4 opacity-20">
+            <span class="material-symbols-outlined text-[100px]">lightbulb</span>
+          </div>
+          <h4 class="text-lg font-bold">Ad Copy & Services Page</h4>
+          <p class="text-primary-fixed/70 text-sm mt-2">Generate branded service pages, LinkedIn copy, and marketing materials.</p>
+          <button class="mt-6 bg-white text-primary px-4 py-2 rounded-lg font-bold text-sm">Create Now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== GENERATOR PAGE ==================== -->
+  <div id="page-generator" class="page hidden">
+    <header class="sticky top-0 z-30 bg-white/80 backdrop-blur-md px-10 py-6 shadow-sm">
+      <h2 class="text-2xl font-extrabold tracking-tight text-primary">Material Generator</h2>
+      <p class="text-on-surface-variant text-sm mt-0.5">Configure brand DNA and generate marketing collateral.</p>
+    </header>
+    <div class="px-10 py-8 space-y-8 fade-in">
+      <!-- Brand Config -->
+      <section class="relative p-8 rounded-xl bg-gradient-to-br from-primary to-primary-container text-white shadow-xl overflow-hidden">
+        <div class="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
+          <span class="material-symbols-outlined text-[120px]">auto_awesome</span>
+        </div>
+        <div class="max-w-3xl space-y-6 relative z-10">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-xs font-bold tracking-widest uppercase">
+            <span class="w-2 h-2 bg-secondary rounded-full animate-pulse"></span>
+            Brand Personalization Engine
+          </div>
+          <h3 class="text-2xl font-bold">Configure Output</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="space-y-2">
+              <label class="text-xs font-bold tracking-wider uppercase text-primary-fixed/60">Material Type</label>
+              <select id="genType" class="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white focus:bg-white/10 outline-none">
+                <option value="services">Services & Capabilities Page</option>
+                <option value="homepage">Homepage / Landing Page</option>
+                <option value="adcopy">LinkedIn Ad Copy</option>
+                <option value="email">Email Outreach Template</option>
+                <option value="onepager">Talent One-Pager</option>
+              </select>
+            </div>
+            <div class="space-y-2">
+              <label class="text-xs font-bold tracking-wider uppercase text-primary-fixed/60">Brand Voice</label>
+              <select id="genVoice" class="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white focus:bg-white/10 outline-none">
+                <option>Professional & Authoritative</option>
+                <option>Nimble & Modern</option>
+                <option>Technical & Precise</option>
+                <option>Warm & Partnership-Focused</option>
+              </select>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <label class="text-xs font-bold tracking-wider uppercase text-primary-fixed/60">Target Client / Industry</label>
+            <input id="genTarget" type="text" placeholder="e.g. Healthcare MSP in Northeast US..." class="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/30 focus:bg-white/10 outline-none"/>
+          </div>
+          <div class="space-y-2">
+            <label class="text-xs font-bold tracking-wider uppercase text-primary-fixed/60">Key Selling Points (one per line)</label>
+            <textarea id="genPoints" rows="3" placeholder="48-hour deployment&#10;White-label ready&#10;98% success rate" class="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/30 focus:bg-white/10 outline-none resize-none"></textarea>
+          </div>
+          <div class="flex gap-4">
+            <button onclick="generateMaterial()" class="bg-secondary text-white px-8 py-3 rounded-lg font-bold flex items-center gap-2 hover:bg-secondary-container active:scale-95 shadow-lg transition-all">
+              <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">magic_button</span>
+              Generate Material
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Generated Output -->
+      <div id="generatedOutput" class="hidden space-y-4">
+        <div class="flex justify-between items-center">
+          <h3 class="text-lg font-bold">Generated Output</h3>
+          <div class="flex gap-2">
+            <button onclick="copyGenerated()" class="px-4 py-2 bg-surface-container-high rounded-lg text-sm font-bold hover:bg-primary hover:text-white transition-colors flex items-center gap-2">
+              <span class="material-symbols-outlined text-sm">content_copy</span> Copy HTML
+            </button>
+            <button onclick="openGeneratedPreview()" class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-bold hover:opacity-90 transition-all flex items-center gap-2">
+              <span class="material-symbols-outlined text-sm">open_in_new</span> Preview
+            </button>
+          </div>
+        </div>
+        <div id="generatedPreview" class="bg-white rounded-xl shadow-sm overflow-hidden" style="height: 500px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== RATE CARD BUILDER ==================== -->
+  <div id="page-ratecard" class="page hidden">
+    <header class="sticky top-0 z-30 bg-white/80 backdrop-blur-md px-10 py-6 flex justify-between items-center shadow-sm">
+      <div>
+        <h2 class="text-2xl font-extrabold tracking-tight text-primary">Rate Card Builder</h2>
+        <p class="text-on-surface-variant text-sm mt-0.5">Customize pricing for any client or pitch.</p>
+      </div>
+      <div class="flex gap-3">
+        <button onclick="previewRateCard()" class="px-5 py-2.5 bg-surface-container-high rounded-lg text-sm font-bold hover:bg-primary hover:text-white transition-colors flex items-center gap-2">
+          <span class="material-symbols-outlined text-sm">visibility</span> Preview
+        </button>
+        <button onclick="exportRateCard()" class="px-5 py-2.5 bg-primary text-white rounded-lg text-sm font-bold hover:opacity-90 flex items-center gap-2">
+          <span class="material-symbols-outlined text-sm">download</span> Export HTML
+        </button>
+      </div>
+    </header>
+    <div class="px-10 py-8 space-y-8 fade-in">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Config Panel -->
+        <div class="space-y-6">
+          <div class="bg-white p-6 rounded-xl shadow-sm space-y-4">
+            <h3 class="font-bold text-primary flex items-center gap-2"><span class="material-symbols-outlined text-lg">tune</span> Configuration</h3>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1.5 block">Client Name</label>
+                <input id="rcClientName" type="text" value="Partner MSP" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-primary font-semibold focus:ring-2 focus:ring-primary/20"/>
+              </div>
+              <div>
+                <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1.5 block">Partner Tier</label>
+                <select id="rcTier" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-primary font-semibold focus:ring-2 focus:ring-primary/20">
+                  <option>Platinum Elite</option>
+                  <option>Gold Partner</option>
+                  <option>Silver Standard</option>
+                  <option>Custom</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1.5 block">Pricing Year</label>
+              <input id="rcYear" type="text" value="2026" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-primary font-semibold focus:ring-2 focus:ring-primary/20"/>
+            </div>
+            <div>
+              <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1.5 block">Discount %</label>
+              <input id="rcDiscount" type="number" value="15" min="0" max="50" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-primary font-semibold focus:ring-2 focus:ring-primary/20"/>
+            </div>
+          </div>
+
+          <!-- Managed Support Rates -->
+          <div class="bg-white p-6 rounded-xl shadow-sm space-y-4">
+            <h3 class="font-bold text-primary flex items-center gap-2"><span class="material-symbols-outlined text-lg">support_agent</span> Managed Support Tiers</h3>
+            <div class="space-y-3" id="rcSupportTiers">
+              <div class="grid grid-cols-4 gap-3 items-end">
+                <div>
+                  <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1 block">Role</label>
+                  <input type="text" value="L1 Support" class="rc-role w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm font-semibold focus:ring-2 focus:ring-primary/20"/>
+                </div>
+                <div>
+                  <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1 block">Skills</label>
+                  <input type="text" value="O365, Windows, AD" class="rc-skills w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20"/>
+                </div>
+                <div>
+                  <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1 block">Experience</label>
+                  <input type="text" value="1-2 Years" class="rc-exp w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20"/>
+                </div>
+                <div>
+                  <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1 block">Rate/hr</label>
+                  <input type="number" value="45" class="rc-rate w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm font-bold text-primary focus:ring-2 focus:ring-primary/20"/>
+                </div>
+              </div>
+              <div class="grid grid-cols-4 gap-3">
+                <input type="text" value="L2 Support" class="rc-role w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm font-semibold focus:ring-2 focus:ring-primary/20"/>
+                <input type="text" value="Azure, Intune, Virtualization" class="rc-skills w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20"/>
+                <input type="text" value="3-5 Years" class="rc-exp w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20"/>
+                <input type="number" value="65" class="rc-rate w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm font-bold text-primary focus:ring-2 focus:ring-primary/20"/>
+              </div>
+              <div class="grid grid-cols-4 gap-3">
+                <input type="text" value="L3 Support" class="rc-role w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm font-semibold focus:ring-2 focus:ring-primary/20"/>
+                <input type="text" value="PowerShell, Hybrid Cloud, Security" class="rc-skills w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20"/>
+                <input type="text" value="6-8+ Years" class="rc-exp w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20"/>
+                <input type="number" value="95" class="rc-rate w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm font-bold text-primary focus:ring-2 focus:ring-primary/20"/>
+              </div>
+            </div>
+            <button onclick="addSupportTier()" class="text-sm font-bold text-primary flex items-center gap-1 hover:opacity-70">
+              <span class="material-symbols-outlined text-sm">add</span> Add Tier
+            </button>
+          </div>
+
+          <!-- Specialty Rates -->
+          <div class="bg-white p-6 rounded-xl shadow-sm space-y-4">
+            <h3 class="font-bold text-primary flex items-center gap-2"><span class="material-symbols-outlined text-lg">engineering</span> Engineering Specialties</h3>
+            <div class="space-y-3" id="rcSpecialties">
+              <div class="grid grid-cols-4 gap-3 items-end">
+                <div>
+                  <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1 block">Specialty</label>
+                  <input type="text" value="DevOps" class="rc-spec-name w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm font-semibold focus:ring-2 focus:ring-primary/20"/>
+                </div>
+                <div>
+                  <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1 block">Tools</label>
+                  <input type="text" value="Terraform, K8s, Jenkins, Docker" class="rc-spec-tools w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20"/>
+                </div>
+                <div>
+                  <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1 block">Avg Exp</label>
+                  <input type="text" value="8+ Years" class="rc-spec-exp w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20"/>
+                </div>
+                <div>
+                  <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1 block">Rate/hr</label>
+                  <input type="number" value="135" class="rc-spec-rate w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm font-bold text-primary focus:ring-2 focus:ring-primary/20"/>
+                </div>
+              </div>
+              <div class="grid grid-cols-4 gap-3">
+                <input type="text" value="Cybersecurity" class="rc-spec-name w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm font-semibold focus:ring-2 focus:ring-primary/20"/>
+                <input type="text" value="Sentinel, SOC/SIEM, Pen Testing" class="rc-spec-tools w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20"/>
+                <input type="text" value="10+ Years" class="rc-spec-exp w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20"/>
+                <input type="number" value="155" class="rc-spec-rate w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm font-bold text-primary focus:ring-2 focus:ring-primary/20"/>
+              </div>
+              <div class="grid grid-cols-4 gap-3">
+                <input type="text" value="Network Engineering" class="rc-spec-name w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm font-semibold focus:ring-2 focus:ring-primary/20"/>
+                <input type="text" value="Cisco, Meraki, SD-WAN, FortiGate" class="rc-spec-tools w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20"/>
+                <input type="text" value="7-9 Years" class="rc-spec-exp w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20"/>
+                <input type="number" value="120" class="rc-spec-rate w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm font-bold text-primary focus:ring-2 focus:ring-primary/20"/>
+              </div>
+            </div>
+            <button onclick="addSpecialty()" class="text-sm font-bold text-primary flex items-center gap-1 hover:opacity-70">
+              <span class="material-symbols-outlined text-sm">add</span> Add Specialty
+            </button>
+          </div>
+        </div>
+
+        <!-- Live Preview -->
+        <div class="sticky top-24">
+          <div class="bg-white rounded-xl shadow-sm overflow-hidden" style="height: calc(100vh - 140px);">
+            <div class="bg-surface-container-low px-4 py-2 flex items-center justify-between">
+              <span class="text-[10px] font-bold uppercase tracking-widest text-outline">Live Preview</span>
+              <button onclick="previewRateCard()" class="text-[10px] font-bold text-primary hover:underline">Open Full</button>
+            </div>
+            <iframe id="rcPreviewFrame" class="preview-frame" style="height: calc(100% - 36px); transform: scale(0.6); transform-origin: top left; width: 166.67%;"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== CASE STUDY BUILDER ==================== -->
+  <div id="page-casestudy" class="page hidden">
+    <header class="sticky top-0 z-30 bg-white/80 backdrop-blur-md px-10 py-6 flex justify-between items-center shadow-sm">
+      <div>
+        <h2 class="text-2xl font-extrabold tracking-tight text-primary">Case Study Builder</h2>
+        <p class="text-on-surface-variant text-sm mt-0.5">Create branded proof files from project data.</p>
+      </div>
+      <div class="flex gap-3">
+        <button onclick="previewCaseStudy()" class="px-5 py-2.5 bg-surface-container-high rounded-lg text-sm font-bold hover:bg-primary hover:text-white transition-colors flex items-center gap-2">
+          <span class="material-symbols-outlined text-sm">visibility</span> Preview
+        </button>
+        <button onclick="exportCaseStudy()" class="px-5 py-2.5 bg-primary text-white rounded-lg text-sm font-bold hover:opacity-90 flex items-center gap-2">
+          <span class="material-symbols-outlined text-sm">download</span> Export
+        </button>
+      </div>
+    </header>
+    <div class="px-10 py-8 space-y-6 fade-in">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="space-y-6">
+          <div class="bg-white p-6 rounded-xl shadow-sm space-y-4">
+            <h3 class="font-bold text-primary">Project Details</h3>
+            <div>
+              <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1.5 block">Case Study Title</label>
+              <input id="csTitle" type="text" value="Enterprise Scaling: 5 NOC Engineers in 48 Hours" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-primary font-semibold focus:ring-2 focus:ring-primary/20"/>
+            </div>
+            <div>
+              <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1.5 block">Badge / Tag</label>
+              <input id="csBadge" type="text" value="Nexus Elite Deployment" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20"/>
+            </div>
+            <div>
+              <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1.5 block">Division</label>
+              <input id="csDivision" type="text" value="Enterprise Infrastructure Division" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20"/>
+            </div>
+          </div>
+
+          <div class="bg-white p-6 rounded-xl shadow-sm space-y-4">
+            <h3 class="font-bold text-primary">The Challenge</h3>
+            <textarea id="csChallenge" rows="4" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20 resize-none">A global financial services provider faced a critical network vulnerability during a migration phase. Their internal recruitment pipeline estimated 4-6 weeks to source specialized NOC Tier 3 engineers.</textarea>
+            <div>
+              <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1.5 block">Pain Points (one per line)</label>
+              <textarea id="csPainPoints" rows="3" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20 resize-none">Immediate risk of 24/7 monitoring blackouts
+Critical migration deadline in 72 hours
+Legacy staffing vendors failed to deliver candidates</textarea>
+            </div>
+          </div>
+
+          <div class="bg-white p-6 rounded-xl shadow-sm space-y-4">
+            <h3 class="font-bold text-primary">Impact Stats</h3>
+            <div class="grid grid-cols-3 gap-4">
+              <div>
+                <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1 block">Stat 1</label>
+                <input id="csStat1Val" type="text" value="48h" class="w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm font-bold text-primary focus:ring-2 focus:ring-primary/20"/>
+                <input id="csStat1Label" type="text" value="Deployment Speed" class="w-full bg-surface-container-low border-none rounded-lg px-3 py-2 text-[10px] mt-1 focus:ring-2 focus:ring-primary/20"/>
+              </div>
+              <div>
+                <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1 block">Stat 2</label>
+                <input id="csStat2Val" type="text" value="64%" class="w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm font-bold text-primary focus:ring-2 focus:ring-primary/20"/>
+                <input id="csStat2Label" type="text" value="Cost Savings" class="w-full bg-surface-container-low border-none rounded-lg px-3 py-2 text-[10px] mt-1 focus:ring-2 focus:ring-primary/20"/>
+              </div>
+              <div>
+                <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1 block">Stat 3</label>
+                <input id="csStat3Val" type="text" value="100%" class="w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm font-bold text-primary focus:ring-2 focus:ring-primary/20"/>
+                <input id="csStat3Label" type="text" value="Uptime Maintained" class="w-full bg-surface-container-low border-none rounded-lg px-3 py-2 text-[10px] mt-1 focus:ring-2 focus:ring-primary/20"/>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white p-6 rounded-xl shadow-sm space-y-4">
+            <h3 class="font-bold text-primary">Client Testimonial</h3>
+            <textarea id="csQuote" rows="3" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20 resize-none italic">JSM Consulting delivered what three other global agencies couldn't even quote. Their Nexus Elite model isn't just staffing; it's infrastructure security.</textarea>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1 block">Name / Title</label>
+                <input id="csQuoteAuthor" type="text" value="Chief Information Officer" class="w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20"/>
+              </div>
+              <div>
+                <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1 block">Company</label>
+                <input id="csQuoteCompany" type="text" value="Global Fintech Group" class="w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20"/>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Preview -->
+        <div class="sticky top-24">
+          <div class="bg-white rounded-xl shadow-sm overflow-hidden" style="height: calc(100vh - 140px);">
+            <div class="bg-surface-container-low px-4 py-2 flex items-center justify-between">
+              <span class="text-[10px] font-bold uppercase tracking-widest text-outline">Live Preview</span>
+              <button onclick="previewCaseStudy()" class="text-[10px] font-bold text-primary hover:underline">Open Full</button>
+            </div>
+            <iframe id="csPreviewFrame" class="preview-frame" style="height: calc(100% - 36px); transform: scale(0.55); transform-origin: top left; width: 181.82%;"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PROFIT CALCULATOR ==================== -->
+  <div id="page-calculator" class="page hidden">
+    <header class="sticky top-0 z-30 bg-white/80 backdrop-blur-md px-10 py-6 flex justify-between items-center shadow-sm">
+      <div>
+        <h2 class="text-2xl font-extrabold tracking-tight text-primary">Profit Margin Calculator</h2>
+        <p class="text-on-surface-variant text-sm mt-0.5">Show clients the cost advantage of JSM augmentation.</p>
+      </div>
+      <button onclick="exportCalculator()" class="px-5 py-2.5 bg-primary text-white rounded-lg text-sm font-bold hover:opacity-90 flex items-center gap-2">
+        <span class="material-symbols-outlined text-sm">download</span> Export Branded
+      </button>
+    </header>
+    <div class="px-10 py-8 fade-in">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div class="lg:col-span-5 space-y-6">
+          <div class="bg-white p-6 rounded-xl shadow-sm space-y-5">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="material-symbols-outlined text-primary text-2xl">analytics</span>
+              <h3 class="text-lg font-bold">Internal Cost Factors</h3>
+            </div>
+            <div>
+              <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1.5 block">Annual Base Salary (USD)</label>
+              <input id="calcSalary" type="number" value="120000" oninput="updateCalculator()" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-primary font-semibold focus:ring-2 focus:ring-primary/20"/>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1.5 block">Benefits %</label>
+                <input id="calcBenefits" type="number" value="25" oninput="updateCalculator()" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-primary font-semibold focus:ring-2 focus:ring-primary/20"/>
+              </div>
+              <div>
+                <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1.5 block">Overhead (Annual)</label>
+                <input id="calcOverhead" type="number" value="15000" oninput="updateCalculator()" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-primary font-semibold focus:ring-2 focus:ring-primary/20"/>
+              </div>
+            </div>
+            <div>
+              <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1.5 block">Recruitment & Onboarding</label>
+              <input id="calcRecruit" type="number" value="8500" oninput="updateCalculator()" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-primary font-semibold focus:ring-2 focus:ring-primary/20"/>
+            </div>
+            <div>
+              <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1.5 block">JSM Annual Rate (Equivalent)</label>
+              <input id="calcJSMRate" type="number" value="112000" oninput="updateCalculator()" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-secondary font-semibold focus:ring-2 focus:ring-secondary/20"/>
+            </div>
+          </div>
+          <div class="bg-primary p-6 rounded-xl text-white">
+            <h3 class="font-bold mb-2">The JSM Efficiency Edge</h3>
+            <p class="text-primary-fixed/80 text-sm mb-4">Eliminate sourcing risk and benefit liabilities with our Nexus Elite Tier.</p>
+            <button onclick="exportCalculator()" class="bg-secondary text-white w-full py-3 rounded-lg font-bold uppercase tracking-widest text-xs hover:bg-secondary-container active:scale-95 flex items-center justify-center gap-2 transition-all">
+              <span class="material-symbols-outlined text-sm">picture_as_pdf</span> Download Branded PDF
+            </button>
+          </div>
+        </div>
+        <div class="lg:col-span-7">
+          <div class="bg-white p-8 rounded-xl shadow-sm">
+            <div class="flex justify-between items-start mb-8">
+              <div>
+                <h3 class="text-xl font-black text-primary mb-1">Margin Expansion Analysis</h3>
+                <p class="text-on-surface-variant text-sm">Projected annual savings using Augmented Architecture</p>
+              </div>
+              <span class="px-3 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed text-xs font-bold uppercase tracking-tighter">Live Forecast</span>
+            </div>
+            <div class="flex items-end justify-between gap-12 px-4 pb-4" style="height: 300px;">
+              <div class="flex flex-col items-center w-full">
+                <div class="relative w-full bg-surface-container-high rounded-t-lg flex flex-col justify-end overflow-hidden transition-all duration-500" id="calcBarInternal" style="height: 250px;">
+                  <div class="bg-primary/20 w-full border-t border-primary/30" style="height: 75%;"></div>
+                </div>
+                <p class="mt-3 text-xs font-bold text-on-surface-variant uppercase tracking-widest">Internal Hire</p>
+                <p class="text-lg font-black text-primary" id="calcInternalTotal">$173,500</p>
+              </div>
+              <div class="flex flex-col items-center w-full">
+                <div class="relative w-full bg-primary rounded-t-lg flex flex-col justify-end overflow-hidden transition-all duration-500" id="calcBarJSM" style="height: 160px;">
+                  <div class="bg-secondary/40 w-full border-t border-secondary/30" style="height: 50%;"></div>
+                </div>
+                <p class="mt-3 text-xs font-bold text-on-surface-variant uppercase tracking-widest">JSM Augmented</p>
+                <p class="text-lg font-black text-secondary" id="calcJSMTotal">$112,000</p>
+              </div>
+            </div>
+            <div class="mt-6 pt-6 border-t border-surface-variant flex items-center justify-between">
+              <div>
+                <div class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1">Estimated Annual Savings</div>
+                <div class="text-3xl font-black text-primary" id="calcSavings">$61,500 <span class="text-secondary text-base font-bold">/ Year</span></div>
+              </div>
+              <div class="text-right">
+                <div class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1">Margin Growth</div>
+                <div class="flex items-center gap-2 justify-end">
+                  <span class="w-3 h-3 rounded-full bg-secondary animate-pulse"></span>
+                  <span class="text-2xl font-black text-on-surface" id="calcPercent">+35.4%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PITCH DECK ==================== -->
+  <div id="page-pitchdeck" class="page hidden">
+    <header class="sticky top-0 z-30 bg-white/80 backdrop-blur-md px-10 py-6 flex justify-between items-center shadow-sm">
+      <div>
+        <h2 class="text-2xl font-extrabold tracking-tight text-primary">Pitch Deck Builder</h2>
+        <p class="text-on-surface-variant text-sm mt-0.5">Create branded presentation pages for client pitches.</p>
+      </div>
+      <button onclick="exportPitchDeck()" class="px-5 py-2.5 bg-primary text-white rounded-lg text-sm font-bold hover:opacity-90 flex items-center gap-2">
+        <span class="material-symbols-outlined text-sm">download</span> Export HTML
+      </button>
+    </header>
+    <div class="px-10 py-8 space-y-6 fade-in">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="space-y-6">
+          <div class="bg-white p-6 rounded-xl shadow-sm space-y-4">
+            <h3 class="font-bold text-primary">Deck Configuration</h3>
+            <div>
+              <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1.5 block">Pitch Target / Company</label>
+              <input id="pdTarget" type="text" value="Acme Technology Solutions" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-primary font-semibold focus:ring-2 focus:ring-primary/20"/>
+            </div>
+            <div>
+              <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1.5 block">Industry</label>
+              <input id="pdIndustry" type="text" value="Managed IT Services" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20"/>
+            </div>
+            <div>
+              <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1.5 block">Headline Message</label>
+              <input id="pdHeadline" type="text" value="Precision in Talent. Architected for Speed." class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-sm font-semibold focus:ring-2 focus:ring-primary/20"/>
+            </div>
+            <div>
+              <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1.5 block">Key Value Props (one per line)</label>
+              <textarea id="pdValueProps" rows="4" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20 resize-none">48-hour elite talent deployment
+White-label integration with your brand
+98% candidate success rate
+24/7 global operational support</textarea>
+            </div>
+            <div>
+              <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1.5 block">Services to Highlight</label>
+              <textarea id="pdServices" rows="3" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20 resize-none">L1-L3 Managed Support
+DevOps & Cloud Architecture
+Cybersecurity Operations</textarea>
+            </div>
+          </div>
+          <div class="bg-white p-6 rounded-xl shadow-sm space-y-4">
+            <h3 class="font-bold text-primary">Stats to Feature</h3>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <input id="pdStat1Val" type="text" value="98%" class="w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-lg font-black text-primary text-center focus:ring-2 focus:ring-primary/20"/>
+                <input id="pdStat1Label" type="text" value="Success Rate" class="w-full bg-surface-container-low border-none rounded-lg px-3 py-2 text-[10px] text-center mt-1 focus:ring-2 focus:ring-primary/20"/>
+              </div>
+              <div>
+                <input id="pdStat2Val" type="text" value="48h" class="w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-lg font-black text-primary text-center focus:ring-2 focus:ring-primary/20"/>
+                <input id="pdStat2Label" type="text" value="Deployment Time" class="w-full bg-surface-container-low border-none rounded-lg px-3 py-2 text-[10px] text-center mt-1 focus:ring-2 focus:ring-primary/20"/>
+              </div>
+              <div>
+                <input id="pdStat3Val" type="text" value="500+" class="w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-lg font-black text-primary text-center focus:ring-2 focus:ring-primary/20"/>
+                <input id="pdStat3Label" type="text" value="Vetted Specialists" class="w-full bg-surface-container-low border-none rounded-lg px-3 py-2 text-[10px] text-center mt-1 focus:ring-2 focus:ring-primary/20"/>
+              </div>
+              <div>
+                <input id="pdStat4Val" type="text" value="24/7" class="w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-lg font-black text-primary text-center focus:ring-2 focus:ring-primary/20"/>
+                <input id="pdStat4Label" type="text" value="Operational Support" class="w-full bg-surface-container-low border-none rounded-lg px-3 py-2 text-[10px] text-center mt-1 focus:ring-2 focus:ring-primary/20"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sticky top-24">
+          <div class="bg-white rounded-xl shadow-sm overflow-hidden" style="height: calc(100vh - 140px);">
+            <div class="bg-surface-container-low px-4 py-2 flex items-center justify-between">
+              <span class="text-[10px] font-bold uppercase tracking-widest text-outline">Live Preview</span>
+              <button onclick="previewPitchDeck()" class="text-[10px] font-bold text-primary hover:underline">Open Full</button>
+            </div>
+            <iframe id="pdPreviewFrame" class="preview-frame" style="height: calc(100% - 36px); transform: scale(0.55); transform-origin: top left; width: 181.82%;"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- Client Modal -->
+<div id="clientModal" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-black/40 modal-overlay" onclick="closeClientModal()"></div>
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl shadow-2xl w-full max-w-lg p-8 fade-in">
+    <div class="flex justify-between items-center mb-6">
+      <h3 class="text-xl font-bold text-primary" id="clientModalTitle">Add Client Profile</h3>
+      <button onclick="closeClientModal()" class="p-1 hover:bg-surface-container-high rounded-lg"><span class="material-symbols-outlined text-outline">close</span></button>
+    </div>
+    <div class="space-y-4">
+      <input type="hidden" id="clientEditId"/>
+      <div>
+        <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1.5 block">Company Name *</label>
+        <input id="clientName" type="text" placeholder="e.g. Velocity MSP" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-primary font-semibold focus:ring-2 focus:ring-primary/20"/>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1.5 block">Industry</label>
+          <input id="clientIndustry" type="text" placeholder="e.g. Healthcare IT" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20"/>
+        </div>
+        <div>
+          <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1.5 block">Region</label>
+          <input id="clientRegion" type="text" placeholder="e.g. Northeast US" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20"/>
+        </div>
+      </div>
+      <div>
+        <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1.5 block">Contact Name</label>
+        <input id="clientContact" type="text" placeholder="e.g. John Smith, CTO" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20"/>
+      </div>
+      <div>
+        <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1.5 block">Brand Voice Preference</label>
+        <select id="clientVoice" class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20">
+          <option>Professional & Authoritative</option>
+          <option>Nimble & Modern</option>
+          <option>Technical & Precise</option>
+          <option>Warm & Partnership-Focused</option>
+        </select>
+      </div>
+      <div>
+        <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1.5 block">Primary Color (hex)</label>
+        <div class="flex gap-3">
+          <input id="clientColor" type="color" value="#00327d" class="w-12 h-10 rounded cursor-pointer"/>
+          <input id="clientColorHex" type="text" value="#00327d" oninput="document.getElementById('clientColor').value=this.value" class="flex-grow bg-surface-container-low border-none rounded-lg px-4 py-3 text-sm font-mono focus:ring-2 focus:ring-primary/20"/>
+        </div>
+      </div>
+      <div>
+        <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-1.5 block">Notes</label>
+        <textarea id="clientNotes" rows="2" placeholder="Specific needs, decision makers, budget range..." class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20 resize-none"></textarea>
+      </div>
+    </div>
+    <div class="flex gap-3 mt-6">
+      <button onclick="closeClientModal()" class="flex-1 py-3 bg-surface-container-high rounded-lg font-bold text-sm hover:bg-surface-variant transition-colors">Cancel</button>
+      <button onclick="saveClient()" class="flex-1 py-3 bg-primary text-white rounded-lg font-bold text-sm hover:opacity-90 active:scale-95 transition-all">Save Client</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="fixed bottom-6 right-6 z-50 hidden bg-primary text-white px-6 py-3 rounded-lg shadow-xl font-bold text-sm flex items-center gap-2 fade-in">
+  <span class="material-symbols-outlined text-sm">check_circle</span>
+  <span id="toastMsg">Saved!</span>
+</div>
+
+<script>
+// ===== STATE =====
+let clients = JSON.parse(localStorage.getItem('jsm_clients') || '[]');
+let materials = JSON.parse(localStorage.getItem('jsm_materials') || '[]');
+let currentPage = 'dashboard';
+let generatedHTML = '';
+
+// ===== NAVIGATION =====
+function navigateTo(page) {
+  currentPage = page;
+  document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+  document.getElementById('page-' + page)?.classList.remove('hidden');
+  // Update nav active state
+  document.querySelectorAll('.nav-item').forEach(n => {
+    n.classList.remove('bg-primary', 'text-white', 'shadow-lg');
+    n.classList.add('text-slate-500');
+  });
+  const activeNav = document.querySelector(`.nav-item[data-page="${page}"]`);
+  if (activeNav) {
+    activeNav.classList.add('bg-primary', 'text-white', 'shadow-lg');
+    activeNav.classList.remove('text-slate-500');
+  }
+  // Page-specific init
+  if (page === 'dashboard') initDashboard();
+  if (page === 'clients') renderClients();
+  if (page === 'ratecard') setTimeout(updateRateCardPreview, 100);
+  if (page === 'casestudy') setTimeout(updateCaseStudyPreview, 100);
+  if (page === 'calculator') updateCalculator();
+  if (page === 'pitchdeck') setTimeout(updatePitchDeckPreview, 100);
+}
+
+// ===== DASHBOARD =====
+function initDashboard() {
+  document.getElementById('dashboardDate').textContent = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  document.getElementById('statClients').textContent = clients.length;
+  document.getElementById('statMaterials').textContent = materials.length;
+  document.getElementById('statMonth').textContent = materials.filter(m => {
+    const d = new Date(m.date);
+    const now = new Date();
+    return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+  }).length;
+  renderRecentMaterials();
+}
+
+function renderRecentMaterials() {
+  const container = document.getElementById('recentMaterials');
+  if (materials.length === 0) {
+    container.innerHTML = '<p class="text-on-surface-variant text-sm py-8 text-center">No materials generated yet.</p>';
+    return;
+  }
+  container.innerHTML = materials.slice(-5).reverse().map(m => `
+    <div class="flex items-center justify-between p-4 bg-white rounded-xl hover:bg-surface-container-low transition-colors group">
+      <div class="flex items-center gap-4">
+        <div class="w-10 h-10 bg-surface-container-low rounded-lg flex items-center justify-center shadow-sm">
+          <span class="material-symbols-outlined text-primary">${m.icon || 'description'}</span>
+        </div>
+        <div>
+          <h5 class="font-bold text-on-surface">${m.name}</h5>
+          <p class="text-xs text-slate-500">${m.type} &middot; ${new Date(m.date).toLocaleDateString()}</p>
+        </div>
+      </div>
+      <span class="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-bold rounded-full uppercase tracking-widest">${m.client || 'JSM'}</span>
+    </div>
+  `).join('');
+}
+
+// ===== CLIENT MANAGEMENT =====
+function openClientModal(editId) {
+  const modal = document.getElementById('clientModal');
+  modal.classList.remove('hidden');
+  if (editId !== undefined) {
+    const c = clients[editId];
+    document.getElementById('clientModalTitle').textContent = 'Edit Client';
+    document.getElementById('clientEditId').value = editId;
+    document.getElementById('clientName').value = c.name;
+    document.getElementById('clientIndustry').value = c.industry || '';
+    document.getElementById('clientRegion').value = c.region || '';
+    document.getElementById('clientContact').value = c.contact || '';
+    document.getElementById('clientVoice').value = c.voice || 'Professional & Authoritative';
+    document.getElementById('clientColor').value = c.color || '#00327d';
+    document.getElementById('clientColorHex').value = c.color || '#00327d';
+    document.getElementById('clientNotes').value = c.notes || '';
+  } else {
+    document.getElementById('clientModalTitle').textContent = 'Add Client Profile';
+    document.getElementById('clientEditId').value = '';
+    document.getElementById('clientName').value = '';
+    document.getElementById('clientIndustry').value = '';
+    document.getElementById('clientRegion').value = '';
+    document.getElementById('clientContact').value = '';
+    document.getElementById('clientVoice').value = 'Professional & Authoritative';
+    document.getElementById('clientColor').value = '#00327d';
+    document.getElementById('clientColorHex').value = '#00327d';
+    document.getElementById('clientNotes').value = '';
+  }
+}
+
+function closeClientModal() {
+  document.getElementById('clientModal').classList.add('hidden');
+}
+
+function saveClient() {
+  const name = document.getElementById('clientName').value.trim();
+  if (!name) return;
+  const data = {
+    name,
+    industry: document.getElementById('clientIndustry').value.trim(),
+    region: document.getElementById('clientRegion').value.trim(),
+    contact: document.getElementById('clientContact').value.trim(),
+    voice: document.getElementById('clientVoice').value,
+    color: document.getElementById('clientColor').value,
+    notes: document.getElementById('clientNotes').value.trim(),
+    created: new Date().toISOString()
+  };
+  const editId = document.getElementById('clientEditId').value;
+  if (editId !== '') {
+    clients[parseInt(editId)] = { ...clients[parseInt(editId)], ...data };
+  } else {
+    clients.push(data);
+  }
+  localStorage.setItem('jsm_clients', JSON.stringify(clients));
+  closeClientModal();
+  renderClients();
+  updateClientSelector();
+  showToast('Client saved!');
+}
+
+function deleteClient(idx) {
+  if (!confirm('Delete this client profile?')) return;
+  clients.splice(idx, 1);
+  localStorage.setItem('jsm_clients', JSON.stringify(clients));
+  renderClients();
+  updateClientSelector();
+}
+
+function renderClients() {
+  const grid = document.getElementById('clientGrid');
+  const empty = document.getElementById('noClients');
+  if (clients.length === 0) {
+    grid.innerHTML = '';
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+  grid.innerHTML = clients.map((c, i) => `
+    <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-all border-l-4" style="border-color: ${c.color || '#00327d'}">
+      <div class="flex justify-between items-start mb-4">
+        <div class="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-sm" style="background: ${c.color || '#00327d'}">
+          ${c.name.substring(0, 2).toUpperCase()}
+        </div>
+        <div class="flex gap-1">
+          <button onclick="openClientModal(${i})" class="p-1.5 hover:bg-surface-container-high rounded-lg"><span class="material-symbols-outlined text-sm text-outline">edit</span></button>
+          <button onclick="deleteClient(${i})" class="p-1.5 hover:bg-error-container rounded-lg"><span class="material-symbols-outlined text-sm text-error">delete</span></button>
+        </div>
+      </div>
+      <h4 class="font-bold text-primary text-lg">${c.name}</h4>
+      <p class="text-xs text-on-surface-variant mt-1">${[c.industry, c.region].filter(Boolean).join(' &middot; ') || 'No details'}</p>
+      ${c.contact ? `<p class="text-xs text-outline mt-2"><span class="material-symbols-outlined text-xs align-middle">person</span> ${c.contact}</p>` : ''}
+      <div class="mt-4 flex flex-wrap gap-2">
+        <span class="px-2 py-1 bg-surface-container-low rounded text-[10px] font-bold text-slate-500">${c.voice || 'Default Voice'}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function updateClientSelector() {
+  const sel = document.getElementById('clientSelector');
+  sel.innerHTML = '<option value="jsm">JSM Consulting (Default)</option>' +
+    clients.map((c, i) => `<option value="${i}">${c.name}</option>`).join('');
+}
+
+function switchClient() {
+  const val = document.getElementById('clientSelector').value;
+  if (val === 'jsm') return;
+  const c = clients[parseInt(val)];
+  // Auto-fill generator fields if on generator page
+  if (currentPage === 'generator') {
+    document.getElementById('genTarget').value = `${c.industry || ''} - ${c.name}`;
+  }
+  if (currentPage === 'ratecard') {
+    document.getElementById('rcClientName').value = c.name;
+  }
+  if (currentPage === 'pitchdeck') {
+    document.getElementById('pdTarget').value = c.name;
+    document.getElementById('pdIndustry').value = c.industry || '';
+  }
+}
+
+// ===== PROFIT CALCULATOR =====
+function updateCalculator() {
+  const salary = parseFloat(document.getElementById('calcSalary').value) || 0;
+  const benefits = parseFloat(document.getElementById('calcBenefits').value) || 0;
+  const overhead = parseFloat(document.getElementById('calcOverhead').value) || 0;
+  const recruit = parseFloat(document.getElementById('calcRecruit').value) || 0;
+  const jsmRate = parseFloat(document.getElementById('calcJSMRate').value) || 0;
+
+  const internalTotal = salary * (1 + benefits / 100) + overhead + recruit;
+  const savings = internalTotal - jsmRate;
+  const pct = internalTotal > 0 ? ((savings / internalTotal) * 100).toFixed(1) : 0;
+
+  document.getElementById('calcInternalTotal').textContent = '$' + internalTotal.toLocaleString('en-US', { maximumFractionDigits: 0 });
+  document.getElementById('calcJSMTotal').textContent = '$' + jsmRate.toLocaleString('en-US', { maximumFractionDigits: 0 });
+  document.getElementById('calcSavings').innerHTML = '$' + savings.toLocaleString('en-US', { maximumFractionDigits: 0 }) + ' <span class="text-secondary text-base font-bold">/ Year</span>';
+  document.getElementById('calcPercent').textContent = '+' + pct + '%';
+
+  // Update bars
+  const maxHeight = 250;
+  const barInternal = document.getElementById('calcBarInternal');
+  const barJSM = document.getElementById('calcBarJSM');
+  barInternal.style.height = maxHeight + 'px';
+  barJSM.style.height = (internalTotal > 0 ? (jsmRate / internalTotal) * maxHeight : 0) + 'px';
+}
+
+// ===== TEMPLATE BUILDERS =====
+function getSharedHead(title) {
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><title>${title} | JSM Consulting</title><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"><\/script><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/><script>tailwind.config={theme:{extend:{colors:{primary:"#00327d","primary-container":"#0047ab","primary-fixed":"#dae2ff",secondary:"#b6171e","secondary-container":"#da3433","secondary-fixed":"#ffdad6",tertiary:"#2c374a","tertiary-fixed":"#d8e3fb",surface:"#f7f9fb","surface-container-low":"#f2f4f6","surface-container-high":"#e6e8ea","surface-container-highest":"#e0e3e5","surface-container-lowest":"#ffffff","surface-variant":"#e0e3e5","on-surface":"#191c1e","on-surface-variant":"#434653","on-primary":"#ffffff","on-primary-container":"#a5bdff","on-secondary":"#ffffff","on-tertiary-fixed":"#111c2d",outline:"#737784","outline-variant":"#c3c6d5"},fontFamily:{headline:["Manrope"],body:["Inter"],label:["Inter"]}}}}<\/script><style>.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}body{font-family:'Inter',sans-serif;background:#f7f9fb}h1,h2,h3,h4,h5{font-family:'Manrope',sans-serif}</style></head>`;
+}
+
+function getSharedNav(active) {
+  return `<nav class="sticky top-0 w-full z-50 bg-white/80 backdrop-blur-md shadow-sm"><div class="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto"><div class="text-2xl font-extrabold tracking-tighter text-[#00327d] uppercase font-headline">JSM Consulting</div><div class="hidden md:flex gap-8 items-center font-headline font-bold tracking-tight"><a class="${active==='services'?'text-[#b6171e] border-b-2 border-[#b6171e] pb-1':'text-slate-600 hover:text-[#00327d] transition-colors'}" href="#">Services</a><a class="${active==='talent'?'text-[#b6171e] border-b-2 border-[#b6171e] pb-1':'text-slate-600 hover:text-[#00327d] transition-colors'}" href="#">Talent</a><a class="${active==='cases'?'text-[#b6171e] border-b-2 border-[#b6171e] pb-1':'text-slate-600 hover:text-[#00327d] transition-colors'}" href="#">Case Studies</a><a class="text-slate-600 hover:text-[#00327d] transition-colors" href="#">About</a></div><button class="bg-[#00327d] text-white px-6 py-2.5 rounded-lg font-bold hover:opacity-80 active:scale-95 transition-all">Partner With Us</button></div></nav>`;
+}
+
+function getSharedFooter() {
+  return `<footer class="bg-[#00327d] w-full py-12"><div class="flex flex-col md:flex-row justify-between items-center px-12 border-t border-white/10 max-w-7xl mx-auto pt-8"><div class="mb-6 md:mb-0"><span class="font-['Manrope'] font-bold text-white tracking-widest text-lg uppercase">JSM Consulting</span><p class="font-['Inter'] text-[10px] text-blue-200/70 uppercase tracking-widest mt-2">&copy; 2026 JSM Consulting. Precision in Talent.</p></div><div class="flex gap-8 font-['Inter'] text-xs uppercase tracking-widest"><a class="text-blue-200/70 hover:text-white transition-colors" href="#">Privacy Policy</a><a class="text-blue-200/70 hover:text-white transition-colors" href="#">Terms of Service</a><a class="text-blue-200/70 hover:text-white transition-colors" href="#">LinkedIn</a><a class="text-blue-200/70 hover:text-white transition-colors" href="#">Contact</a></div></div></footer>`;
+}
+
+// ===== RATE CARD BUILDER =====
+function buildRateCardHTML() {
+  const clientName = document.getElementById('rcClientName').value;
+  const tier = document.getElementById('rcTier').value;
+  const year = document.getElementById('rcYear').value;
+  const discount = document.getElementById('rcDiscount').value;
+
+  const roles = document.querySelectorAll('#rcSupportTiers .rc-role');
+  const skills = document.querySelectorAll('#rcSupportTiers .rc-skills');
+  const exps = document.querySelectorAll('#rcSupportTiers .rc-exp');
+  const rates = document.querySelectorAll('#rcSupportTiers .rc-rate');
+  let supportRows = '';
+  for (let i = 0; i < roles.length; i++) {
+    const skillTags = skills[i].value.split(',').map(s => `<span class="px-2 py-0.5 bg-[#d8e3fb] text-[#111c2d] text-[10px] rounded-full font-medium">${s.trim()}</span>`).join('');
+    supportRows += `<tr class="group hover:bg-[#f2f4f6] transition-colors"><td class="px-6 py-5"><div class="font-bold text-[#00327d]">${roles[i].value}</div></td><td class="px-6 py-5"><div class="flex flex-wrap gap-2">${skillTags}</div></td><td class="px-6 py-5 text-center"><span class="text-sm font-semibold text-[#434653]">${exps[i].value}</span></td><td class="px-6 py-5 text-right"><div class="text-xl font-black text-[#00327d]" style="font-family:Manrope">$${parseFloat(rates[i].value).toFixed(2)}</div></td></tr>`;
+  }
+
+  const specNames = document.querySelectorAll('#rcSpecialties .rc-spec-name');
+  const specTools = document.querySelectorAll('#rcSpecialties .rc-spec-tools');
+  const specExps = document.querySelectorAll('#rcSpecialties .rc-spec-exp');
+  const specRates = document.querySelectorAll('#rcSpecialties .rc-spec-rate');
+  const colors = ['#00327d', '#b6171e', '#2c374a', '#0047ab'];
+  let specCards = '';
+  for (let i = 0; i < specNames.length; i++) {
+    specCards += `<div class="bg-white p-6 rounded-xl" style="border-left: 4px solid ${colors[i % colors.length]}; box-shadow: 0 32px 64px -12px rgba(25,28,30,0.04);"><div class="mb-4"><p class="text-[10px] font-bold uppercase tracking-widest text-[#737784]">Specialty</p><h5 class="text-xl font-black text-[#00327d] uppercase" style="font-family:Manrope">${specNames[i].value}</h5></div><div class="space-y-3"><div><p class="text-[10px] uppercase font-bold text-[#737784]">Primary Tooling</p><p class="text-sm font-medium">${specTools[i].value}</p></div><div><p class="text-[10px] uppercase font-bold text-[#737784]">Avg Experience</p><p class="text-sm font-medium">${specExps[i].value}</p></div></div><div class="mt-6 pt-4 border-t border-[#e6e8ea]"><p class="text-[10px] uppercase font-bold text-[#737784]">Partner Rate</p><span class="text-3xl font-black text-[#00327d]" style="font-family:Manrope">$${parseFloat(specRates[i].value).toFixed(0)}</span><span class="text-sm font-bold text-[#737784]">/hr</span></div></div>`;
+  }
+
+  return `${getSharedHead('Service & Rate Card')}<body class="bg-[#f7f9fb] text-[#191c1e]" style="font-family:Inter,sans-serif">${getSharedNav('services')}<main class="max-w-6xl mx-auto px-8 py-12"><section class="mb-12"><h1 class="text-4xl font-bold tracking-tight text-[#00327d] leading-tight mb-4" style="font-family:Manrope">Service & Rate Card</h1><div class="flex items-center gap-6"><div><p class="text-[10px] font-bold uppercase tracking-widest text-[#737784]">Prepared For</p><p class="text-xl font-bold text-[#00327d]" style="font-family:Manrope">${clientName}</p></div><div><p class="text-[10px] font-bold uppercase tracking-widest text-[#737784]">Partner Tier</p><p class="text-xl font-bold text-[#00327d]" style="font-family:Manrope">${tier}</p></div><div><p class="text-[10px] font-bold uppercase tracking-widest text-[#737784]">Year</p><p class="text-xl font-bold text-[#00327d]" style="font-family:Manrope">${year}</p></div><div><p class="text-[10px] font-bold uppercase tracking-widest text-[#737784]">Volume Discount</p><p class="text-xl font-bold text-[#b6171e]" style="font-family:Manrope">${discount}%</p></div></div></section><section class="mb-16"><h2 class="text-2xl font-extrabold tracking-tight mb-6" style="font-family:Manrope; border-bottom: 1px solid #c3c6d5; padding-bottom: 1rem;">Managed Support Tiers</h2><div class="bg-white rounded-xl overflow-hidden" style="box-shadow:0 32px 64px -12px rgba(25,28,30,0.04)"><table class="w-full text-left"><thead><tr class="bg-[#f2f4f6]"><th class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-[#737784]">Role</th><th class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-[#737784]">Primary Skills</th><th class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-[#737784] text-center">Experience</th><th class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-[#737784] text-right">Partner Rate</th></tr></thead><tbody class="divide-y divide-[#e6e8ea]">${supportRows}</tbody></table></div></section><section class="mb-16"><h2 class="text-2xl font-extrabold tracking-tight mb-6" style="font-family:Manrope; border-bottom: 1px solid #c3c6d5; padding-bottom: 1rem;">Engineering Specialties</h2><div class="grid grid-cols-1 md:grid-cols-${Math.min(specNames.length, 3)} gap-6">${specCards}</div></section><section class="bg-[#00327d] p-10 rounded-xl text-white text-center"><h3 class="text-2xl font-black uppercase mb-2" style="font-family:Manrope">Ready to Scale?</h3><p class="text-blue-100/80 mb-6">Contact JSM Consulting to discuss your custom staffing solution.</p><button class="bg-white text-[#00327d] px-8 py-3 rounded-lg font-black uppercase tracking-widest text-xs">Request Strategic Staffing Plan</button></section></main>${getSharedFooter()}</body></html>`;
+}
+
+function updateRateCardPreview() {
+  const frame = document.getElementById('rcPreviewFrame');
+  const html = buildRateCardHTML();
+  frame.srcdoc = html;
+}
+
+function previewRateCard() {
+  const html = buildRateCardHTML();
+  const w = window.open('', '_blank');
+  w.document.write(html);
+  w.document.close();
+  saveMaterial('Rate Card - ' + document.getElementById('rcClientName').value, 'Rate Card', 'payments');
+}
+
+function exportRateCard() {
+  const html = buildRateCardHTML();
+  downloadHTML(html, 'JSM_Rate_Card_' + document.getElementById('rcClientName').value.replace(/\s+/g, '_') + '.html');
+  saveMaterial('Rate Card - ' + document.getElementById('rcClientName').value, 'Rate Card', 'payments');
+}
+
+function addSupportTier() {
+  const container = document.getElementById('rcSupportTiers');
+  const div = document.createElement('div');
+  div.className = 'grid grid-cols-4 gap-3';
+  div.innerHTML = `<input type="text" value="New Role" class="rc-role w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm font-semibold focus:ring-2 focus:ring-primary/20"/><input type="text" value="" placeholder="Skills..." class="rc-skills w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20"/><input type="text" value="" placeholder="Experience" class="rc-exp w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20"/><input type="number" value="75" class="rc-rate w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm font-bold text-primary focus:ring-2 focus:ring-primary/20"/>`;
+  container.appendChild(div);
+}
+
+function addSpecialty() {
+  const container = document.getElementById('rcSpecialties');
+  const div = document.createElement('div');
+  div.className = 'grid grid-cols-4 gap-3';
+  div.innerHTML = `<input type="text" value="New Specialty" class="rc-spec-name w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm font-semibold focus:ring-2 focus:ring-primary/20"/><input type="text" value="" placeholder="Tools..." class="rc-spec-tools w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20"/><input type="text" value="" placeholder="Experience" class="rc-spec-exp w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20"/><input type="number" value="100" class="rc-spec-rate w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm font-bold text-primary focus:ring-2 focus:ring-primary/20"/>`;
+  container.appendChild(div);
+}
+
+// ===== CASE STUDY BUILDER =====
+function buildCaseStudyHTML() {
+  const title = document.getElementById('csTitle').value;
+  const badge = document.getElementById('csBadge').value;
+  const division = document.getElementById('csDivision').value;
+  const challenge = document.getElementById('csChallenge').value;
+  const painPoints = document.getElementById('csPainPoints').value.split('\n').filter(Boolean);
+  const icons = ['warning', 'timer', 'block', 'error', 'priority_high'];
+  const painHTML = painPoints.map((p, i) => `<div class="flex items-start gap-3"><span class="material-symbols-outlined text-[#b6171e] pt-1">${icons[i % icons.length]}</span><p class="text-sm font-medium">${p}</p></div>`).join('');
+
+  const s1v = document.getElementById('csStat1Val').value, s1l = document.getElementById('csStat1Label').value;
+  const s2v = document.getElementById('csStat2Val').value, s2l = document.getElementById('csStat2Label').value;
+  const s3v = document.getElementById('csStat3Val').value, s3l = document.getElementById('csStat3Label').value;
+  const quote = document.getElementById('csQuote').value;
+  const author = document.getElementById('csQuoteAuthor').value;
+  const company = document.getElementById('csQuoteCompany').value;
+
+  return `${getSharedHead('Case Study')}<body class="bg-[#f7f9fb] text-[#191c1e]" style="font-family:Inter,sans-serif">${getSharedNav('cases')}<main class="max-w-6xl mx-auto px-8 py-12"><header class="mb-16"><div class="inline-block bg-[#b6171e] text-white px-4 py-1 rounded-full text-xs font-bold tracking-widest uppercase mb-6">${badge}</div><h1 class="text-5xl md:text-6xl font-extrabold tracking-tighter text-[#00327d] leading-tight mb-6" style="font-family:Manrope">${title}</h1><p class="text-sm text-[#434653] font-medium">${division}</p></header><section class="bg-[#f2f4f6] p-10 rounded-xl mb-16"><h2 class="text-2xl font-extrabold text-[#00327d] uppercase tracking-tight mb-6" style="font-family:Manrope">The Challenge</h2><p class="text-lg text-[#434653] leading-relaxed mb-8">${challenge}</p><div class="space-y-4">${painHTML}</div></section><section class="bg-[#00327d] rounded-2xl p-12 md:p-16 text-white mb-16"><div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center"><div><p class="text-[#b6171e] font-black text-6xl mb-2" style="font-family:Manrope">${s1v}</p><p class="text-xs uppercase tracking-[0.2em] font-bold opacity-70">${s1l}</p></div><div><p class="text-white font-black text-6xl mb-2" style="font-family:Manrope">${s2v}</p><p class="text-xs uppercase tracking-[0.2em] font-bold opacity-70">${s2l}</p></div><div><p class="text-white font-black text-6xl mb-2" style="font-family:Manrope">${s3v}</p><p class="text-xs uppercase tracking-[0.2em] font-bold opacity-70">${s3l}</p></div></div></section><section class="mb-16"><h3 class="text-2xl font-extrabold text-[#00327d] mb-6 italic" style="font-family:Manrope">"${quote}"</h3><div class="flex items-center gap-4"><div><p class="font-bold text-[#00327d]">${author}</p><p class="text-sm text-[#434653] uppercase tracking-widest">${company}</p></div></div></section><section class="py-16 text-center"><h2 class="text-3xl font-extrabold text-[#00327d] mb-6" style="font-family:Manrope">Need Nimble Deployment?</h2><p class="max-w-2xl mx-auto text-[#434653] mb-8">Our Nexus Elite pool is pre-vetted and ready for 48-hour deployment into your infrastructure.</p><button class="bg-[#00327d] text-white px-10 py-4 rounded-lg font-bold text-lg">Book a Nimble Audit</button></section></main>${getSharedFooter()}</body></html>`;
+}
+
+function updateCaseStudyPreview() {
+  const frame = document.getElementById('csPreviewFrame');
+  frame.srcdoc = buildCaseStudyHTML();
+}
+
+function previewCaseStudy() {
+  const html = buildCaseStudyHTML();
+  const w = window.open('', '_blank');
+  w.document.write(html);
+  w.document.close();
+  saveMaterial('Case Study - ' + document.getElementById('csTitle').value.substring(0, 30), 'Case Study', 'article');
+}
+
+function exportCaseStudy() {
+  downloadHTML(buildCaseStudyHTML(), 'JSM_Case_Study.html');
+  saveMaterial('Case Study - ' + document.getElementById('csTitle').value.substring(0, 30), 'Case Study', 'article');
+}
+
+// ===== PITCH DECK BUILDER =====
+function buildPitchDeckHTML() {
+  const target = document.getElementById('pdTarget').value;
+  const industry = document.getElementById('pdIndustry').value;
+  const headline = document.getElementById('pdHeadline').value;
+  const valueProps = document.getElementById('pdValueProps').value.split('\n').filter(Boolean);
+  const services = document.getElementById('pdServices').value.split('\n').filter(Boolean);
+  const vpHTML = valueProps.map(v => `<div class="flex items-center gap-3 px-5 py-4 bg-white rounded-xl"><span class="material-symbols-outlined text-[#b6171e]">check_circle</span><span class="font-medium">${v}</span></div>`).join('');
+  const svcHTML = services.map((s, i) => {
+    const icons = ['support_agent', 'cloud', 'security', 'code', 'storage', 'hub'];
+    return `<div class="bg-white p-8 rounded-2xl"><span class="material-symbols-outlined text-[#00327d] text-3xl mb-4">${icons[i % icons.length]}</span><h4 class="font-bold text-lg text-[#00327d] mb-2" style="font-family:Manrope">${s}</h4><p class="text-sm text-[#434653]">Pre-vetted specialists ready for 48-hour deployment.</p></div>`;
+  }).join('');
+
+  const s1v = document.getElementById('pdStat1Val').value, s1l = document.getElementById('pdStat1Label').value;
+  const s2v = document.getElementById('pdStat2Val').value, s2l = document.getElementById('pdStat2Label').value;
+  const s3v = document.getElementById('pdStat3Val').value, s3l = document.getElementById('pdStat3Label').value;
+  const s4v = document.getElementById('pdStat4Val').value, s4l = document.getElementById('pdStat4Label').value;
+
+  return `${getSharedHead('Pitch Deck')}<body class="bg-[#f7f9fb] text-[#191c1e]" style="font-family:Inter,sans-serif">${getSharedNav('services')}<main>
+  <section class="min-h-[80vh] flex items-center bg-[#f7f9fb] px-8"><div class="max-w-6xl mx-auto w-full"><div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#ffdad6] text-[#b6171e] text-xs font-bold tracking-widest uppercase mb-6"><span class="w-2 h-2 rounded-full bg-[#b6171e] animate-pulse"></span> Prepared for ${target}</div><h1 class="text-6xl md:text-7xl font-extrabold text-[#00327d] tracking-tighter leading-[0.95] mb-6" style="font-family:Manrope">${headline}</h1><p class="text-xl text-[#434653] max-w-2xl mb-8">High-utility IT staffing and partnership models designed for ${industry}. We deploy validated expertise in under 48 hours.</p><div class="flex gap-4"><button class="bg-[#0047ab] text-white px-10 py-4 rounded-lg font-bold text-lg shadow-lg">Scale Your Team</button><button class="bg-[#e0e3e5] text-[#00327d] px-10 py-4 rounded-lg font-bold text-lg">View Talent Pool</button></div></div></section>
+  <section class="py-16 bg-[#f2f4f6] px-8"><div class="max-w-6xl mx-auto"><h2 class="text-3xl font-extrabold text-[#00327d] mb-8 text-center" style="font-family:Manrope">Why Partner with JSM</h2><div class="grid grid-cols-1 md:grid-cols-2 gap-4">${vpHTML}</div></div></section>
+  <section class="py-16 px-8"><div class="max-w-6xl mx-auto"><h2 class="text-3xl font-extrabold text-[#00327d] mb-8" style="font-family:Manrope">Our Services</h2><div class="grid grid-cols-1 md:grid-cols-3 gap-6">${svcHTML}</div></div></section>
+  <section class="py-16 bg-[#00327d] px-8"><div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center"><div><div class="text-4xl font-extrabold text-white mb-1" style="font-family:Manrope">${s1v}</div><div class="text-[10px] font-bold uppercase tracking-widest text-blue-200/70">${s1l}</div></div><div><div class="text-4xl font-extrabold text-white mb-1" style="font-family:Manrope">${s2v}</div><div class="text-[10px] font-bold uppercase tracking-widest text-blue-200/70">${s2l}</div></div><div><div class="text-4xl font-extrabold text-white mb-1" style="font-family:Manrope">${s3v}</div><div class="text-[10px] font-bold uppercase tracking-widest text-blue-200/70">${s3l}</div></div><div><div class="text-4xl font-extrabold text-white mb-1" style="font-family:Manrope">${s4v}</div><div class="text-[10px] font-bold uppercase tracking-widest text-blue-200/70">${s4l}</div></div></div></section>
+  <section class="py-20 px-8"><div class="max-w-4xl mx-auto bg-[#00327d] rounded-3xl p-12 md:p-16 text-center text-white"><h2 class="text-4xl font-bold mb-6" style="font-family:Manrope">Ready to architect your future-proof team?</h2><p class="text-blue-100/80 text-lg mb-8">Partner with JSM Consulting and experience the power of nimble, diverse, and elite IT staff augmentation.</p><div class="flex justify-center gap-4"><button class="bg-[#b6171e] text-white px-10 py-4 rounded-lg font-bold text-lg shadow-xl">Start Hiring Now</button><button class="bg-white/10 text-white px-10 py-4 rounded-lg font-bold text-lg border border-white/20">Talk to an Expert</button></div></div></section>
+  </main>${getSharedFooter()}</body></html>`;
+}
+
+function updatePitchDeckPreview() {
+  document.getElementById('pdPreviewFrame').srcdoc = buildPitchDeckHTML();
+}
+
+function previewPitchDeck() {
+  const html = buildPitchDeckHTML();
+  const w = window.open('', '_blank');
+  w.document.write(html);
+  w.document.close();
+  saveMaterial('Pitch Deck - ' + document.getElementById('pdTarget').value, 'Pitch Deck', 'present_to_all');
+}
+
+function exportPitchDeck() {
+  downloadHTML(buildPitchDeckHTML(), 'JSM_Pitch_' + document.getElementById('pdTarget').value.replace(/\s+/g, '_') + '.html');
+  saveMaterial('Pitch Deck - ' + document.getElementById('pdTarget').value, 'Pitch Deck', 'present_to_all');
+}
+
+// ===== GENERATOR (Services Page, Ad Copy, etc.) =====
+function generateMaterial() {
+  const type = document.getElementById('genType').value;
+  const voice = document.getElementById('genVoice').value;
+  const target = document.getElementById('genTarget').value || 'Enterprise IT';
+  const points = document.getElementById('genPoints').value.split('\n').filter(Boolean);
+
+  let html = '';
+  if (type === 'services' || type === 'homepage') {
+    const pointsHTML = points.map(p => `<div class="flex items-center gap-3 px-5 py-4 bg-white rounded-xl border-l-4 border-[#00327d]"><span class="material-symbols-outlined text-[#00327d]">check_circle</span><div><div class="font-bold">${p}</div></div></div>`).join('');
+    html = `${getSharedHead(type === 'services' ? 'Services' : 'Home')}<body class="bg-[#f7f9fb] text-[#191c1e]" style="font-family:Inter,sans-serif">${getSharedNav('services')}<main><section class="py-20 px-8"><div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center"><div><div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#ffdad6] text-[#b6171e] text-xs font-bold tracking-widest uppercase mb-6"><span class="w-2 h-2 rounded-full bg-[#b6171e] animate-pulse"></span> Now Serving ${target}</div><h1 class="text-5xl md:text-6xl font-extrabold tracking-tighter text-[#00327d] leading-[1.05] mb-6" style="font-family:Manrope">Precision in Talent.<br/>Architected for Speed.</h1><p class="text-lg text-[#434653] max-w-xl mb-8">High-utility IT staffing and partnership models designed for ${target}. From Tiered Support to specialized engineering, we deploy validated expertise in under 48 hours.</p><div class="flex gap-4"><button class="bg-[#0047ab] text-white px-10 py-4 rounded-lg font-bold shadow-lg">Scale Your Team</button><button class="bg-[#e0e3e5] text-[#00327d] px-10 py-4 rounded-lg font-bold">View Talent Pool</button></div></div><div class="bg-[#0047ab] rounded-2xl p-12 text-white text-center"><p class="text-5xl font-black mb-2" style="font-family:Manrope">48hrs</p><p class="text-sm uppercase tracking-widest opacity-80">Average turnaround for elite talent placement.</p></div></div></section><section class="py-16 bg-[#f2f4f6] px-8"><div class="max-w-6xl mx-auto"><h2 class="text-3xl font-extrabold text-[#00327d] mb-8" style="font-family:Manrope">Why JSM Consulting</h2><div class="grid grid-cols-1 md:grid-cols-2 gap-4">${pointsHTML}</div></div></section><section class="py-16 px-8"><div class="max-w-4xl mx-auto bg-[#00327d] rounded-3xl p-16 text-center text-white"><h2 class="text-4xl font-bold mb-8" style="font-family:Manrope">Ready to partner?</h2><button class="bg-[#b6171e] text-white px-12 py-5 rounded-lg font-bold text-xl shadow-xl">Start Hiring Now</button></div></section></main>${getSharedFooter()}</body></html>`;
+  } else if (type === 'adcopy') {
+    const bulletHTML = points.map(p => `<li class="flex items-start gap-2"><span class="text-[#b6171e] font-bold">&#x2713;</span> ${p}</li>`).join('');
+    html = `${getSharedHead('Ad Copy')}<body class="bg-[#f7f9fb] text-[#191c1e] p-12" style="font-family:Inter,sans-serif"><div class="max-w-2xl mx-auto space-y-12"><div class="bg-white p-8 rounded-xl shadow-sm"><h3 class="text-xs font-bold text-[#737784] uppercase tracking-widest mb-2">LinkedIn Ad - Headline</h3><p class="text-2xl font-extrabold text-[#00327d]" style="font-family:Manrope">Stop Waiting Weeks for IT Talent. Deploy Elite Engineers in 48 Hours.</p></div><div class="bg-white p-8 rounded-xl shadow-sm"><h3 class="text-xs font-bold text-[#737784] uppercase tracking-widest mb-2">LinkedIn Ad - Body Copy</h3><p class="text-base leading-relaxed mb-4">JSM Consulting provides pre-vetted, white-label IT specialists for ${target}. Our Nexus Elite model eliminates sourcing risk and reduces overhead by up to 40%.</p><ul class="space-y-2 text-sm">${bulletHTML}</ul><p class="mt-4 font-bold text-[#00327d]">Learn how leading MSPs scale with JSM &rarr;</p></div><div class="bg-white p-8 rounded-xl shadow-sm"><h3 class="text-xs font-bold text-[#737784] uppercase tracking-widest mb-2">Google Ad - Short</h3><p class="font-bold text-[#00327d]">Elite IT Talent in 48h | JSM Consulting</p><p class="text-sm text-[#434653]">Pre-vetted L1-L3 engineers, DevOps, Cybersecurity. White-label ready. 98% success rate. Scale your MSP now.</p></div><div class="bg-white p-8 rounded-xl shadow-sm"><h3 class="text-xs font-bold text-[#737784] uppercase tracking-widest mb-2">Email Subject Lines</h3><ul class="space-y-2 text-sm font-medium"><li>1. "Your next 5 engineers are already vetted - here's how"</li><li>2. "48-hour deployment: The JSM Nexus Elite advantage"</li><li>3. "Cut staffing overhead by 40% without cutting quality"</li></ul></div></div></body></html>`;
+  } else if (type === 'email') {
+    html = `${getSharedHead('Email Template')}<body class="bg-[#f7f9fb] text-[#191c1e] p-12" style="font-family:Inter,sans-serif"><div class="max-w-2xl mx-auto bg-white rounded-xl shadow-sm overflow-hidden"><div class="bg-[#00327d] px-8 py-6"><p class="text-white font-bold text-lg" style="font-family:Manrope">JSM Consulting</p><p class="text-blue-200/70 text-xs uppercase tracking-widest">Partnership Outreach</p></div><div class="px-8 py-8 space-y-4"><p class="text-sm">Hi [Name],</p><p class="text-sm leading-relaxed">I noticed ${target} is growing rapidly, and I wanted to share how JSM Consulting has helped similar organizations scale their technical teams without the typical 4-6 week hiring cycle.</p><p class="text-sm leading-relaxed">Our <strong>Nexus Elite</strong> model provides:</p><ul class="space-y-2 text-sm pl-4">${points.map(p => `<li class="flex items-start gap-2"><span class="text-[#b6171e]">&#x2022;</span> ${p}</li>`).join('')}</ul><p class="text-sm leading-relaxed">We've helped companies like [Client Name] reduce staffing overhead by 40% while improving service delivery speed.</p><p class="text-sm leading-relaxed">Would you be open to a 15-minute call this week to see if there's a fit?</p><p class="text-sm mt-6">Best regards,<br/><strong class="text-[#00327d]">Maria Restrepo</strong><br/>JSM Consulting<br/><span class="text-xs text-[#737784]">Precision in Talent.</span></p></div></div></body></html>`;
+  } else if (type === 'onepager') {
+    html = `${getSharedHead('Talent One-Pager')}<body class="bg-[#f7f9fb] text-[#191c1e] p-12" style="font-family:Inter,sans-serif"><div class="max-w-3xl mx-auto"><div class="bg-white rounded-xl shadow-sm overflow-hidden"><div class="bg-[#00327d] px-8 py-6 flex justify-between items-center"><div><p class="text-white font-bold text-xl" style="font-family:Manrope">JSM Consulting</p><p class="text-blue-200/70 text-[10px] uppercase tracking-widest">Talent Profile</p></div><span class="px-3 py-1 bg-[#b6171e] text-white rounded-full text-[10px] font-bold uppercase tracking-widest">Nexus Elite</span></div><div class="px-8 py-8"><div class="flex gap-8 mb-8"><div class="w-24 h-24 bg-[#e0e3e5] rounded-xl flex items-center justify-center"><span class="material-symbols-outlined text-[#00327d] text-4xl">person</span></div><div><h2 class="text-2xl font-bold text-[#00327d]" style="font-family:Manrope">[Candidate Name]</h2><p class="text-[#b6171e] font-bold uppercase tracking-widest text-xs mt-1">[Role Title]</p><p class="text-sm text-[#434653] mt-2">[Years] years of experience in ${target}</p></div></div><div class="grid grid-cols-2 gap-6 mb-8"><div><h3 class="text-xs font-bold uppercase tracking-widest text-[#737784] mb-3">Core Skills</h3><div class="flex flex-wrap gap-2">${points.map(p => `<span class="px-3 py-1 bg-[#d8e3fb] text-[#111c2d] text-xs rounded-full font-medium">${p}</span>`).join('')}</div></div><div><h3 class="text-xs font-bold uppercase tracking-widest text-[#737784] mb-3">Certifications</h3><p class="text-sm">[List certifications here]</p></div></div><div class="bg-[#f2f4f6] p-6 rounded-xl mb-8"><h3 class="text-xs font-bold uppercase tracking-widest text-[#737784] mb-3">Professional Summary</h3><p class="text-sm leading-relaxed">[Write a 2-3 sentence summary of the candidate's experience and key strengths relevant to the client's needs.]</p></div><div class="flex gap-4"><div class="flex-1 text-center p-4 bg-[#f2f4f6] rounded-xl"><p class="text-2xl font-black text-[#00327d]" style="font-family:Manrope">[X]+</p><p class="text-[10px] font-bold uppercase tracking-widest text-[#737784]">Years Experience</p></div><div class="flex-1 text-center p-4 bg-[#f2f4f6] rounded-xl"><p class="text-2xl font-black text-[#00327d]" style="font-family:Manrope">[X]</p><p class="text-[10px] font-bold uppercase tracking-widest text-[#737784]">Projects Delivered</p></div><div class="flex-1 text-center p-4 bg-[#f2f4f6] rounded-xl"><p class="text-2xl font-black text-[#b6171e]" style="font-family:Manrope">Ready</p><p class="text-[10px] font-bold uppercase tracking-widest text-[#737784]">Availability</p></div></div></div></div></div></body></html>`;
+  }
+
+  generatedHTML = html;
+  document.getElementById('generatedOutput').classList.remove('hidden');
+  const preview = document.getElementById('generatedPreview');
+  preview.innerHTML = `<iframe srcdoc="${html.replace(/"/g, '&quot;')}" style="width:100%;height:100%;border:none;"></iframe>`;
+  saveMaterial(document.getElementById('genType').selectedOptions[0].text + ' - ' + target.substring(0, 20), document.getElementById('genType').selectedOptions[0].text, 'smart_toy');
+}
+
+function copyGenerated() {
+  navigator.clipboard.writeText(generatedHTML);
+  showToast('HTML copied to clipboard!');
+}
+
+function openGeneratedPreview() {
+  const w = window.open('', '_blank');
+  w.document.write(generatedHTML);
+  w.document.close();
+}
+
+// ===== CALCULATOR EXPORT =====
+function exportCalculator() {
+  const salary = document.getElementById('calcSalary').value;
+  const benefits = document.getElementById('calcBenefits').value;
+  const overhead = document.getElementById('calcOverhead').value;
+  const recruit = document.getElementById('calcRecruit').value;
+  const jsmRate = document.getElementById('calcJSMRate').value;
+  const internalTotal = parseFloat(salary) * (1 + parseFloat(benefits) / 100) + parseFloat(overhead) + parseFloat(recruit);
+  const savings = internalTotal - parseFloat(jsmRate);
+  const pct = ((savings / internalTotal) * 100).toFixed(1);
+
+  const html = `${getSharedHead('Profit Margin Calculator')}<body class="bg-[#f7f9fb] text-[#191c1e] p-8" style="font-family:Inter,sans-serif"><div class="max-w-4xl mx-auto"><div class="text-center mb-12"><h1 class="text-4xl font-extrabold text-[#00327d] mb-2" style="font-family:Manrope">Profit Margin Analysis</h1><p class="text-[#434653]">JSM Consulting Nexus Elite Cost Comparison</p></div><div class="grid grid-cols-2 gap-8 mb-12"><div class="bg-white p-8 rounded-xl text-center"><h3 class="text-xs font-bold uppercase tracking-widest text-[#737784] mb-4">Internal Hire (Annual)</h3><p class="text-4xl font-black text-[#00327d]" style="font-family:Manrope">$${internalTotal.toLocaleString('en-US', {maximumFractionDigits:0})}</p><div class="mt-4 text-sm text-[#434653] space-y-1"><p>Base Salary: $${parseInt(salary).toLocaleString()}</p><p>Benefits (${benefits}%): $${(parseFloat(salary)*parseFloat(benefits)/100).toLocaleString('en-US',{maximumFractionDigits:0})}</p><p>Overhead: $${parseInt(overhead).toLocaleString()}</p><p>Recruitment: $${parseInt(recruit).toLocaleString()}</p></div></div><div class="bg-[#00327d] p-8 rounded-xl text-center text-white"><h3 class="text-xs font-bold uppercase tracking-widest text-blue-200/70 mb-4">JSM Augmented (Annual)</h3><p class="text-4xl font-black" style="font-family:Manrope">$${parseInt(jsmRate).toLocaleString()}</p><p class="mt-4 text-sm text-blue-100/80">All-inclusive rate. No benefits, overhead, or recruitment costs.</p></div></div><div class="bg-[#00327d] rounded-2xl p-12 text-center text-white"><div class="grid grid-cols-2 gap-8"><div><p class="text-xs font-bold uppercase tracking-widest text-blue-200/70 mb-2">Estimated Annual Savings</p><p class="text-5xl font-black" style="font-family:Manrope">$${savings.toLocaleString('en-US',{maximumFractionDigits:0})}</p></div><div><p class="text-xs font-bold uppercase tracking-widest text-blue-200/70 mb-2">Margin Growth</p><p class="text-5xl font-black text-[#b6171e]" style="font-family:Manrope">+${pct}%</p></div></div></div><div class="mt-12 text-center text-xs text-[#737784]"><p>Generated by JSM Consulting Command Center &middot; ${new Date().toLocaleDateString()}</p></div></div></body></html>`;
+  downloadHTML(html, 'JSM_Profit_Analysis.html');
+  saveMaterial('Profit Analysis', 'Calculator', 'calculate');
+}
+
+// ===== UTILS =====
+function downloadHTML(html, filename) {
+  const blob = new Blob([html], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Exported: ' + filename);
+}
+
+function saveMaterial(name, type, icon) {
+  const clientVal = document.getElementById('clientSelector').value;
+  const clientName = clientVal === 'jsm' ? 'JSM' : clients[parseInt(clientVal)]?.name || 'JSM';
+  materials.push({ name, type, icon, client: clientName, date: new Date().toISOString() });
+  localStorage.setItem('jsm_materials', JSON.stringify(materials));
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  toast.classList.remove('hidden');
+  setTimeout(() => toast.classList.add('hidden'), 3000);
+}
+
+// ===== AUTO-UPDATE PREVIEWS =====
+document.addEventListener('input', (e) => {
+  if (currentPage === 'ratecard') {
+    clearTimeout(window._rcTimer);
+    window._rcTimer = setTimeout(updateRateCardPreview, 500);
+  }
+  if (currentPage === 'casestudy') {
+    clearTimeout(window._csTimer);
+    window._csTimer = setTimeout(updateCaseStudyPreview, 500);
+  }
+  if (currentPage === 'pitchdeck') {
+    clearTimeout(window._pdTimer);
+    window._pdTimer = setTimeout(updatePitchDeckPreview, 500);
+  }
+});
+
+// ===== INIT =====
+updateClientSelector();
+navigateTo('dashboard');
+</script>
+</body>
+</html>
