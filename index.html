@@ -558,6 +558,79 @@ select option { color: #191c1e; }
             </div>
             <p class="text-xs text-outline">When enabled, selected team members from Team Assets will appear in the exported rate card.</p>
           </div>
+
+          <!-- Design Settings -->
+          <details class="bg-white rounded-xl shadow-sm" id="rcDesignSettings">
+            <summary class="p-6 cursor-pointer flex items-center justify-between select-none">
+              <h3 class="font-bold text-primary flex items-center gap-2"><span class="material-symbols-outlined text-lg">palette</span> Design Settings</h3>
+              <span class="material-symbols-outlined text-outline text-sm transition-transform" id="rcDesignChevron">expand_more</span>
+            </summary>
+            <div class="px-6 pb-6 space-y-5">
+              <!-- Color Overrides -->
+              <div>
+                <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-2 block">Color Overrides</label>
+                <div class="grid grid-cols-3 gap-3">
+                  <div>
+                    <label class="text-[10px] text-outline mb-1 block">Primary</label>
+                    <div class="flex items-center gap-2">
+                      <input type="color" id="rcCfgPrimary" class="w-8 h-8 rounded cursor-pointer border-none" onchange="updateDesignSetting('global','primaryColor',this.value)"/>
+                      <span class="text-xs font-mono text-on-surface-variant" id="rcCfgPrimaryHex">#00327d</span>
+                    </div>
+                  </div>
+                  <div>
+                    <label class="text-[10px] text-outline mb-1 block">Secondary</label>
+                    <div class="flex items-center gap-2">
+                      <input type="color" id="rcCfgSecondary" class="w-8 h-8 rounded cursor-pointer border-none" onchange="updateDesignSetting('global','secondaryColor',this.value)"/>
+                      <span class="text-xs font-mono text-on-surface-variant" id="rcCfgSecondaryHex">#b6171e</span>
+                    </div>
+                  </div>
+                  <div>
+                    <label class="text-[10px] text-outline mb-1 block">Accent</label>
+                    <div class="flex items-center gap-2">
+                      <input type="color" id="rcCfgAccent" class="w-8 h-8 rounded cursor-pointer border-none" onchange="updateDesignSetting('global','accentColor',this.value)"/>
+                      <span class="text-xs font-mono text-on-surface-variant" id="rcCfgAccentHex">#0047ab</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Section Toggles -->
+              <div>
+                <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-2 block">Section Visibility</label>
+                <div class="space-y-2">
+                  <label class="flex items-center justify-between"><span class="text-sm text-on-surface-variant">Hero Header</span><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="rcCfgShowHero" checked class="sr-only peer" onchange="updateDesignSetting('ratecard','showHero',this.checked)"/><div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div></label></label>
+                  <label class="flex items-center justify-between"><span class="text-sm text-on-surface-variant">Support Tiers Table</span><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="rcCfgShowSupport" checked class="sr-only peer" onchange="updateDesignSetting('ratecard','showSupportTable',this.checked)"/><div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div></label></label>
+                  <label class="flex items-center justify-between"><span class="text-sm text-on-surface-variant">Engineering Specialties</span><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="rcCfgShowSpecs" checked class="sr-only peer" onchange="updateDesignSetting('ratecard','showSpecialties',this.checked)"/><div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div></label></label>
+                  <label class="flex items-center justify-between"><span class="text-sm text-on-surface-variant">Service Notes</span><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="rcCfgShowNotes" checked class="sr-only peer" onchange="updateDesignSetting('ratecard','showServiceNotes',this.checked)"/><div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div></label></label>
+                  <label class="flex items-center justify-between"><span class="text-sm text-on-surface-variant">CTA Section</span><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="rcCfgShowCTA" checked class="sr-only peer" onchange="updateDesignSetting('ratecard','showCTA',this.checked)"/><div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div></label></label>
+                </div>
+              </div>
+              <!-- CTA Text -->
+              <div>
+                <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-2 block">CTA Content</label>
+                <div class="space-y-2">
+                  <input id="rcCfgCtaHeadline" type="text" value="Ready to Scale?" class="w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm font-semibold focus:ring-2 focus:ring-primary/20" placeholder="CTA Headline" onchange="updateDesignSetting('ratecard','ctaHeadline',this.value)"/>
+                  <input id="rcCfgCtaText" type="text" value="Contact JSM Consulting to discuss your custom staffing solution." class="w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20" placeholder="CTA Description" onchange="updateDesignSetting('ratecard','ctaText',this.value)"/>
+                  <input id="rcCfgCtaBtn" type="text" value="Request Strategic Staffing Plan" class="w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20" placeholder="CTA Button Text" onchange="updateDesignSetting('ratecard','ctaButtonText',this.value)"/>
+                </div>
+              </div>
+              <!-- Service Notes -->
+              <div>
+                <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-2 block">Service Notes (one per line)</label>
+                <textarea id="rcCfgServiceNotes" rows="3" class="w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20 resize-none" onchange="updateDesignSetting('ratecard','serviceNotes',this.value.split('\n').filter(Boolean))">White-labeled email and Slack integration included in all tiers.
+24/7 Global NOC availability for L2/L3 tiers at 1.5x weekend multiplier.
+Minimum commitment of 20 hours/week per resource required.</textarea>
+              </div>
+              <!-- Preset Buttons -->
+              <div class="flex gap-3 pt-2">
+                <button onclick="saveTemplateConfig(); showToast('Design settings saved as default!')" class="px-4 py-2 bg-primary text-white rounded-lg text-xs font-bold hover:opacity-90 flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-xs">save</span> Save as Default
+                </button>
+                <button onclick="resetTemplateConfig('ratecard'); syncDesignPanel('ratecard'); showToast('Rate card design reset!')" class="px-4 py-2 bg-surface-container-high rounded-lg text-xs font-bold hover:bg-error-container hover:text-error transition-colors flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-xs">restart_alt</span> Reset to Default
+                </button>
+              </div>
+            </div>
+          </details>
         </div>
 
         <!-- Live Preview -->
@@ -678,6 +751,72 @@ Legacy staffing vendors failed to deliver candidates</textarea>
             </div>
             <p class="text-xs text-outline">When enabled, selected team members from Team Assets will appear in the exported case study.</p>
           </div>
+
+          <!-- Design Settings -->
+          <details class="bg-white rounded-xl shadow-sm" id="csDesignSettings">
+            <summary class="p-6 cursor-pointer flex items-center justify-between select-none">
+              <h3 class="font-bold text-primary flex items-center gap-2"><span class="material-symbols-outlined text-lg">palette</span> Design Settings</h3>
+              <span class="material-symbols-outlined text-outline text-sm transition-transform">expand_more</span>
+            </summary>
+            <div class="px-6 pb-6 space-y-5">
+              <!-- Color Overrides -->
+              <div>
+                <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-2 block">Color Overrides</label>
+                <div class="grid grid-cols-3 gap-3">
+                  <div>
+                    <label class="text-[10px] text-outline mb-1 block">Primary</label>
+                    <div class="flex items-center gap-2">
+                      <input type="color" id="csCfgPrimary" class="w-8 h-8 rounded cursor-pointer border-none" onchange="updateDesignSetting('global','primaryColor',this.value)"/>
+                      <span class="text-xs font-mono text-on-surface-variant" id="csCfgPrimaryHex">#00327d</span>
+                    </div>
+                  </div>
+                  <div>
+                    <label class="text-[10px] text-outline mb-1 block">Secondary</label>
+                    <div class="flex items-center gap-2">
+                      <input type="color" id="csCfgSecondary" class="w-8 h-8 rounded cursor-pointer border-none" onchange="updateDesignSetting('global','secondaryColor',this.value)"/>
+                      <span class="text-xs font-mono text-on-surface-variant" id="csCfgSecondaryHex">#b6171e</span>
+                    </div>
+                  </div>
+                  <div>
+                    <label class="text-[10px] text-outline mb-1 block">Accent</label>
+                    <div class="flex items-center gap-2">
+                      <input type="color" id="csCfgAccent" class="w-8 h-8 rounded cursor-pointer border-none" onchange="updateDesignSetting('global','accentColor',this.value)"/>
+                      <span class="text-xs font-mono text-on-surface-variant" id="csCfgAccentHex">#0047ab</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Section Toggles -->
+              <div>
+                <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-2 block">Section Visibility</label>
+                <div class="space-y-2">
+                  <label class="flex items-center justify-between"><span class="text-sm text-on-surface-variant">Hero Header</span><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="csCfgShowHero" checked class="sr-only peer" onchange="updateDesignSetting('casestudy','showHero',this.checked)"/><div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div></label></label>
+                  <label class="flex items-center justify-between"><span class="text-sm text-on-surface-variant">The Challenge</span><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="csCfgShowChallenge" checked class="sr-only peer" onchange="updateDesignSetting('casestudy','showChallenge',this.checked)"/><div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div></label></label>
+                  <label class="flex items-center justify-between"><span class="text-sm text-on-surface-variant">Impact Stats</span><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="csCfgShowStats" checked class="sr-only peer" onchange="updateDesignSetting('casestudy','showStats',this.checked)"/><div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div></label></label>
+                  <label class="flex items-center justify-between"><span class="text-sm text-on-surface-variant">Testimonial</span><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="csCfgShowTestimonial" checked class="sr-only peer" onchange="updateDesignSetting('casestudy','showTestimonial',this.checked)"/><div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div></label></label>
+                  <label class="flex items-center justify-between"><span class="text-sm text-on-surface-variant">CTA Section</span><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="csCfgShowCTA" checked class="sr-only peer" onchange="updateDesignSetting('casestudy','showCTA',this.checked)"/><div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div></label></label>
+                </div>
+              </div>
+              <!-- CTA Text -->
+              <div>
+                <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-2 block">CTA Content</label>
+                <div class="space-y-2">
+                  <input id="csCfgCtaHeadline" type="text" value="Need Nimble Deployment?" class="w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm font-semibold focus:ring-2 focus:ring-primary/20" placeholder="CTA Headline" onchange="updateDesignSetting('casestudy','ctaHeadline',this.value)"/>
+                  <input id="csCfgCtaText" type="text" value="Our Nexus Elite pool is pre-vetted and ready for 48-hour deployment into your infrastructure." class="w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20" placeholder="CTA Description" onchange="updateDesignSetting('casestudy','ctaText',this.value)"/>
+                  <input id="csCfgCtaBtn" type="text" value="Book a Nimble Audit" class="w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20" placeholder="CTA Button Text" onchange="updateDesignSetting('casestudy','ctaButtonText',this.value)"/>
+                </div>
+              </div>
+              <!-- Preset Buttons -->
+              <div class="flex gap-3 pt-2">
+                <button onclick="saveTemplateConfig(); showToast('Design settings saved as default!')" class="px-4 py-2 bg-primary text-white rounded-lg text-xs font-bold hover:opacity-90 flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-xs">save</span> Save as Default
+                </button>
+                <button onclick="resetTemplateConfig('casestudy'); syncDesignPanel('casestudy'); showToast('Case study design reset!')" class="px-4 py-2 bg-surface-container-high rounded-lg text-xs font-bold hover:bg-error-container hover:text-error transition-colors flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-xs">restart_alt</span> Reset to Default
+                </button>
+              </div>
+            </div>
+          </details>
         </div>
 
         <!-- Live Preview -->
@@ -869,6 +1008,75 @@ Cybersecurity Operations</textarea>
             </div>
             <p class="text-xs text-outline">When enabled, selected team members from Team Assets will appear in the exported pitch deck.</p>
           </div>
+
+          <!-- Design Settings -->
+          <details class="bg-white rounded-xl shadow-sm" id="pdDesignSettings">
+            <summary class="p-6 cursor-pointer flex items-center justify-between select-none">
+              <h3 class="font-bold text-primary flex items-center gap-2"><span class="material-symbols-outlined text-lg">palette</span> Design Settings</h3>
+              <span class="material-symbols-outlined text-outline text-sm transition-transform">expand_more</span>
+            </summary>
+            <div class="px-6 pb-6 space-y-5">
+              <!-- Color Overrides -->
+              <div>
+                <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-2 block">Color Overrides</label>
+                <div class="grid grid-cols-3 gap-3">
+                  <div>
+                    <label class="text-[10px] text-outline mb-1 block">Primary</label>
+                    <div class="flex items-center gap-2">
+                      <input type="color" id="pdCfgPrimary" class="w-8 h-8 rounded cursor-pointer border-none" onchange="updateDesignSetting('global','primaryColor',this.value)"/>
+                      <span class="text-xs font-mono text-on-surface-variant" id="pdCfgPrimaryHex">#00327d</span>
+                    </div>
+                  </div>
+                  <div>
+                    <label class="text-[10px] text-outline mb-1 block">Secondary</label>
+                    <div class="flex items-center gap-2">
+                      <input type="color" id="pdCfgSecondary" class="w-8 h-8 rounded cursor-pointer border-none" onchange="updateDesignSetting('global','secondaryColor',this.value)"/>
+                      <span class="text-xs font-mono text-on-surface-variant" id="pdCfgSecondaryHex">#b6171e</span>
+                    </div>
+                  </div>
+                  <div>
+                    <label class="text-[10px] text-outline mb-1 block">Accent</label>
+                    <div class="flex items-center gap-2">
+                      <input type="color" id="pdCfgAccent" class="w-8 h-8 rounded cursor-pointer border-none" onchange="updateDesignSetting('global','accentColor',this.value)"/>
+                      <span class="text-xs font-mono text-on-surface-variant" id="pdCfgAccentHex">#0047ab</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Section Toggles -->
+              <div>
+                <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-2 block">Section Visibility</label>
+                <div class="space-y-2">
+                  <label class="flex items-center justify-between"><span class="text-sm text-on-surface-variant">Hero Header</span><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="pdCfgShowHero" checked class="sr-only peer" onchange="updateDesignSetting('pitchdeck','showHero',this.checked)"/><div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div></label></label>
+                  <label class="flex items-center justify-between"><span class="text-sm text-on-surface-variant">Value Propositions</span><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="pdCfgShowValueProps" checked class="sr-only peer" onchange="updateDesignSetting('pitchdeck','showValueProps',this.checked)"/><div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div></label></label>
+                  <label class="flex items-center justify-between"><span class="text-sm text-on-surface-variant">Services</span><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="pdCfgShowServices" checked class="sr-only peer" onchange="updateDesignSetting('pitchdeck','showServices',this.checked)"/><div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div></label></label>
+                  <label class="flex items-center justify-between"><span class="text-sm text-on-surface-variant">Stats</span><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="pdCfgShowStats" checked class="sr-only peer" onchange="updateDesignSetting('pitchdeck','showStats',this.checked)"/><div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div></label></label>
+                  <label class="flex items-center justify-between"><span class="text-sm text-on-surface-variant">CTA Section</span><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="pdCfgShowCTA" checked class="sr-only peer" onchange="updateDesignSetting('pitchdeck','showCTA',this.checked)"/><div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div></label></label>
+                </div>
+              </div>
+              <!-- CTA Text -->
+              <div>
+                <label class="text-[10px] font-bold uppercase tracking-widest text-outline mb-2 block">CTA Content</label>
+                <div class="space-y-2">
+                  <input id="pdCfgCtaHeadline" type="text" value="Ready to architect your future-proof team?" class="w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm font-semibold focus:ring-2 focus:ring-primary/20" placeholder="CTA Headline" onchange="updateDesignSetting('pitchdeck','ctaHeadline',this.value)"/>
+                  <input id="pdCfgCtaText" type="text" value="Partner with JSM Consulting and experience the power of nimble, diverse, and elite IT staff augmentation." class="w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20" placeholder="CTA Description" onchange="updateDesignSetting('pitchdeck','ctaText',this.value)"/>
+                  <div class="grid grid-cols-2 gap-2">
+                    <input id="pdCfgCtaBtn1" type="text" value="Start Hiring Now" class="w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20" placeholder="Primary Button" onchange="updateDesignSetting('pitchdeck','ctaButton1',this.value)"/>
+                    <input id="pdCfgCtaBtn2" type="text" value="Talk to an Expert" class="w-full bg-surface-container-low border-none rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20" placeholder="Secondary Button" onchange="updateDesignSetting('pitchdeck','ctaButton2',this.value)"/>
+                  </div>
+                </div>
+              </div>
+              <!-- Preset Buttons -->
+              <div class="flex gap-3 pt-2">
+                <button onclick="saveTemplateConfig(); showToast('Design settings saved as default!')" class="px-4 py-2 bg-primary text-white rounded-lg text-xs font-bold hover:opacity-90 flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-xs">save</span> Save as Default
+                </button>
+                <button onclick="resetTemplateConfig('pitchdeck'); syncDesignPanel('pitchdeck'); showToast('Pitch deck design reset!')" class="px-4 py-2 bg-surface-container-high rounded-lg text-xs font-bold hover:bg-error-container hover:text-error transition-colors flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-xs">restart_alt</span> Reset to Default
+                </button>
+              </div>
+            </div>
+          </details>
         </div>
         <div class="sticky top-24">
           <div class="bg-white rounded-xl shadow-sm overflow-hidden" style="height: calc(100vh - 140px);">
@@ -958,6 +1166,36 @@ Cybersecurity Operations</textarea>
             <li class="flex items-start gap-2"><span class="material-symbols-outlined text-xs mt-0.5 text-primary">check</span> All builders work without AI (template-based fallback)</li>
             <li class="flex items-start gap-2"><span class="material-symbols-outlined text-xs mt-0.5 text-primary">check</span> Get your API key from <a href="https://platform.openai.com/api-keys" target="_blank" class="text-primary font-bold hover:underline">platform.openai.com</a></li>
           </ul>
+        </div>
+
+        <!-- Template Configuration -->
+        <div class="bg-white p-8 rounded-xl shadow-sm space-y-6">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 bg-gradient-to-br from-primary to-tertiary rounded-xl flex items-center justify-center">
+              <span class="material-symbols-outlined text-white text-2xl">palette</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-primary text-lg">Template Configuration</h3>
+              <p class="text-sm text-on-surface-variant">Export, import, or reset your template design settings.</p>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-3">
+            <button onclick="exportTemplateConfig()" class="px-6 py-2.5 bg-primary text-white rounded-lg font-bold text-sm hover:opacity-90 active:scale-95 transition-all flex items-center gap-2">
+              <span class="material-symbols-outlined text-sm">download</span> Export Config
+            </button>
+            <label class="px-6 py-2.5 bg-surface-container-high rounded-lg font-bold text-sm hover:bg-primary hover:text-white transition-colors flex items-center gap-2 cursor-pointer">
+              <span class="material-symbols-outlined text-sm">upload</span> Import Config
+              <input type="file" accept=".json" onchange="importTemplateConfig(this.files[0])" class="hidden"/>
+            </label>
+            <button onclick="if(confirm('Reset ALL template designs to factory defaults? This cannot be undone.')){resetTemplateConfig('all')}" class="px-6 py-2.5 bg-error-container text-error rounded-lg font-bold text-sm hover:opacity-90 active:scale-95 transition-all flex items-center gap-2">
+              <span class="material-symbols-outlined text-sm">restart_alt</span> Reset All
+            </button>
+          </div>
+
+          <div class="bg-surface-container-low p-4 rounded-lg border border-outline-variant/20">
+            <p class="text-xs text-on-surface-variant"><span class="material-symbols-outlined text-xs align-middle text-primary mr-1">info</span> Template configuration stores your color overrides, section visibility toggles, and CTA text customizations. Export to transfer settings between devices or back them up.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -1460,10 +1698,10 @@ function navigateTo(page) {
   // Page-specific init
   if (page === 'dashboard') initDashboard();
   if (page === 'clients') renderClients();
-  if (page === 'ratecard') setTimeout(updateRateCardPreview, 100);
-  if (page === 'casestudy') setTimeout(updateCaseStudyPreview, 100);
+  if (page === 'ratecard') { syncDesignPanel('ratecard'); setTimeout(updateRateCardPreview, 100); }
+  if (page === 'casestudy') { syncDesignPanel('casestudy'); setTimeout(updateCaseStudyPreview, 100); }
   if (page === 'calculator') updateCalculator();
-  if (page === 'pitchdeck') setTimeout(updatePitchDeckPreview, 100);
+  if (page === 'pitchdeck') { syncDesignPanel('pitchdeck'); setTimeout(updatePitchDeckPreview, 100); }
   if (page === 'team') renderTeamGrid();
   if (page === 'settings') initSettings();
 }
@@ -1650,20 +1888,25 @@ function updateCalculator() {
 }
 
 // ===== TEMPLATE BUILDERS =====
-function getSharedHead(title) {
-  return `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><title>${title} | JSM Consulting</title><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"><\/script><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/><script>tailwind.config={theme:{extend:{colors:{primary:"#00327d","primary-container":"#0047ab","primary-fixed":"#dae2ff",secondary:"#b6171e","secondary-container":"#da3433","secondary-fixed":"#ffdad6",tertiary:"#2c374a","tertiary-fixed":"#d8e3fb",surface:"#f7f9fb","surface-container-low":"#f2f4f6","surface-container-high":"#e6e8ea","surface-container-highest":"#e0e3e5","surface-container-lowest":"#ffffff","surface-variant":"#e0e3e5","on-surface":"#191c1e","on-surface-variant":"#434653","on-primary":"#ffffff","on-primary-container":"#a5bdff","on-secondary":"#ffffff","on-tertiary-fixed":"#111c2d",outline:"#737784","outline-variant":"#c3c6d5"},fontFamily:{headline:["Manrope"],body:["Inter"],label:["Inter"]}}}}<\/script><style>.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}body{font-family:'Inter',sans-serif;background:#f7f9fb}h1,h2,h3,h4,h5{font-family:'Manrope',sans-serif}</style></head>`;
+function getSharedHead(title, cfg) {
+  const g = cfg || templateConfig.global;
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><title>${title} | ${g.companyName}</title><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"><\/script><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/><script>tailwind.config={theme:{extend:{colors:{primary:"${g.primaryColor}","primary-container":"${g.accentColor}","primary-fixed":"#dae2ff",secondary:"${g.secondaryColor}","secondary-container":"#da3433","secondary-fixed":"#ffdad6",tertiary:"${g.tertiaryColor}","tertiary-fixed":"#d8e3fb",surface:"#f7f9fb","surface-container-low":"#f2f4f6","surface-container-high":"#e6e8ea","surface-container-highest":"#e0e3e5","surface-container-lowest":"#ffffff","surface-variant":"#e0e3e5","on-surface":"#191c1e","on-surface-variant":"#434653","on-primary":"#ffffff","on-primary-container":"#a5bdff","on-secondary":"#ffffff","on-tertiary-fixed":"#111c2d",outline:"#737784","outline-variant":"#c3c6d5"},fontFamily:{headline:["${g.fontHeadline}"],body:["${g.fontBody}"],label:["${g.fontBody}"]}}}}<\/script><style>.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}body{font-family:'${g.fontBody}',sans-serif;background:#f7f9fb}h1,h2,h3,h4,h5{font-family:'${g.fontHeadline}',sans-serif}</style></head>`;
 }
 
-function getSharedNav(active) {
-  return `<nav class="sticky top-0 w-full z-50 bg-white/80 backdrop-blur-md shadow-sm"><div class="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto"><div class="text-2xl font-extrabold tracking-tighter text-[#00327d] uppercase font-headline">JSM Consulting</div><div class="hidden md:flex gap-8 items-center font-headline font-bold tracking-tight"><a class="${active==='services'?'text-[#b6171e] border-b-2 border-[#b6171e] pb-1':'text-slate-600 hover:text-[#00327d] transition-colors'}" href="#">Services</a><a class="${active==='talent'?'text-[#b6171e] border-b-2 border-[#b6171e] pb-1':'text-slate-600 hover:text-[#00327d] transition-colors'}" href="#">Talent</a><a class="${active==='cases'?'text-[#b6171e] border-b-2 border-[#b6171e] pb-1':'text-slate-600 hover:text-[#00327d] transition-colors'}" href="#">Case Studies</a><a class="text-slate-600 hover:text-[#00327d] transition-colors" href="#">About</a></div><button class="bg-[#00327d] text-white px-6 py-2.5 rounded-lg font-bold hover:opacity-80 active:scale-95 transition-all">Partner With Us</button></div></nav>`;
+function getSharedNav(active, cfg) {
+  const g = cfg || templateConfig.global;
+  return `<nav class="sticky top-0 w-full z-50 bg-white/80 backdrop-blur-md shadow-sm"><div class="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto"><div class="text-2xl font-extrabold tracking-tighter text-[${g.primaryColor}] uppercase font-headline">${g.companyName}</div><div class="hidden md:flex gap-8 items-center font-headline font-bold tracking-tight"><a class="${active==='services'?`text-[${g.secondaryColor}] border-b-2 border-[${g.secondaryColor}] pb-1`:'text-slate-600 hover:text-['+g.primaryColor+'] transition-colors'}" href="#">Services</a><a class="${active==='talent'?`text-[${g.secondaryColor}] border-b-2 border-[${g.secondaryColor}] pb-1`:'text-slate-600 hover:text-['+g.primaryColor+'] transition-colors'}" href="#">Talent</a><a class="${active==='cases'?`text-[${g.secondaryColor}] border-b-2 border-[${g.secondaryColor}] pb-1`:'text-slate-600 hover:text-['+g.primaryColor+'] transition-colors'}" href="#">Case Studies</a><a class="text-slate-600 hover:text-[${g.primaryColor}] transition-colors" href="#">About</a></div><button class="bg-[${g.primaryColor}] text-white px-6 py-2.5 rounded-lg font-bold hover:opacity-80 active:scale-95 transition-all">Partner With Us</button></div></nav>`;
 }
 
-function getSharedFooter() {
-  return `<footer class="bg-[#00327d] w-full py-12"><div class="flex flex-col md:flex-row justify-between items-center px-12 border-t border-white/10 max-w-7xl mx-auto pt-8"><div class="mb-6 md:mb-0"><span class="font-['Manrope'] font-bold text-white tracking-widest text-lg uppercase">JSM Consulting</span><p class="font-['Inter'] text-[10px] text-blue-200/70 uppercase tracking-widest mt-2">&copy; 2026 JSM Consulting. Precision in Talent.</p></div><div class="flex gap-8 font-['Inter'] text-xs uppercase tracking-widest"><a class="text-blue-200/70 hover:text-white transition-colors" href="#">Privacy Policy</a><a class="text-blue-200/70 hover:text-white transition-colors" href="#">Terms of Service</a><a class="text-blue-200/70 hover:text-white transition-colors" href="#">LinkedIn</a><a class="text-blue-200/70 hover:text-white transition-colors" href="#">Contact</a></div></div></footer>`;
+function getSharedFooter(cfg) {
+  const g = cfg || templateConfig.global;
+  return `<footer class="bg-[${g.primaryColor}] w-full py-12"><div class="flex flex-col md:flex-row justify-between items-center px-12 border-t border-white/10 max-w-7xl mx-auto pt-8"><div class="mb-6 md:mb-0"><span class="font-['${g.fontHeadline}'] font-bold text-white tracking-widest text-lg uppercase">${g.companyName}</span><p class="font-['${g.fontBody}'] text-[10px] text-blue-200/70 uppercase tracking-widest mt-2">&copy; ${g.footerYear} ${g.companyName}. ${g.tagline}</p></div><div class="flex gap-8 font-['${g.fontBody}'] text-xs uppercase tracking-widest"><a class="text-blue-200/70 hover:text-white transition-colors" href="#">Privacy Policy</a><a class="text-blue-200/70 hover:text-white transition-colors" href="#">Terms of Service</a><a class="text-blue-200/70 hover:text-white transition-colors" href="#">LinkedIn</a><a class="text-blue-200/70 hover:text-white transition-colors" href="#">Contact</a></div></div></footer>`;
 }
 
 // ===== RATE CARD BUILDER =====
 function buildRateCardHTML() {
+  const g = templateConfig.global;
+  const rc = templateConfig.ratecard;
   const clientName = document.getElementById('rcClientName').value;
   const tier = document.getElementById('rcTier').value;
   const year = document.getElementById('rcYear').value;
@@ -1676,22 +1919,37 @@ function buildRateCardHTML() {
   let supportRows = '';
   for (let i = 0; i < roles.length; i++) {
     const skillTags = skills[i].value.split(',').map(s => `<span class="px-2 py-0.5 bg-[#d8e3fb] text-[#111c2d] text-[10px] rounded-full font-medium">${s.trim()}</span>`).join('');
-    supportRows += `<tr class="group hover:bg-[#f2f4f6] transition-colors"><td class="px-6 py-5"><div class="font-bold text-[#00327d]">${roles[i].value}</div></td><td class="px-6 py-5"><div class="flex flex-wrap gap-2">${skillTags}</div></td><td class="px-6 py-5 text-center"><span class="text-sm font-semibold text-[#434653]">${exps[i].value}</span></td><td class="px-6 py-5 text-right"><div class="text-xl font-black text-[#00327d]" style="font-family:Manrope">$${parseFloat(rates[i].value).toFixed(2)}</div></td></tr>`;
+    supportRows += `<tr class="group hover:bg-[#f2f4f6] transition-colors"><td class="px-6 py-5"><div class="font-bold text-[${g.primaryColor}]">${roles[i].value}</div></td><td class="px-6 py-5"><div class="flex flex-wrap gap-2">${skillTags}</div></td><td class="px-6 py-5 text-center"><span class="text-sm font-semibold text-[#434653]">${exps[i].value}</span></td><td class="px-6 py-5 text-right"><div class="text-xl font-black text-[${g.primaryColor}]" style="font-family:${g.fontHeadline}">$${parseFloat(rates[i].value).toFixed(2)}</div></td></tr>`;
   }
 
   const specNames = document.querySelectorAll('#rcSpecialties .rc-spec-name');
   const specTools = document.querySelectorAll('#rcSpecialties .rc-spec-tools');
   const specExps = document.querySelectorAll('#rcSpecialties .rc-spec-exp');
   const specRates = document.querySelectorAll('#rcSpecialties .rc-spec-rate');
-  const colors = ['#00327d', '#b6171e', '#2c374a', '#0047ab'];
+  const colors = [g.primaryColor, g.secondaryColor, g.tertiaryColor, g.accentColor];
   let specCards = '';
   for (let i = 0; i < specNames.length; i++) {
-    specCards += `<div class="bg-white p-6 rounded-xl" style="border-left: 4px solid ${colors[i % colors.length]}; box-shadow: 0 32px 64px -12px rgba(25,28,30,0.04);"><div class="mb-4"><p class="text-[10px] font-bold uppercase tracking-widest text-[#737784]">Specialty</p><h5 class="text-xl font-black text-[#00327d] uppercase" style="font-family:Manrope">${specNames[i].value}</h5></div><div class="space-y-3"><div><p class="text-[10px] uppercase font-bold text-[#737784]">Primary Tooling</p><p class="text-sm font-medium">${specTools[i].value}</p></div><div><p class="text-[10px] uppercase font-bold text-[#737784]">Avg Experience</p><p class="text-sm font-medium">${specExps[i].value}</p></div></div><div class="mt-6 pt-4 border-t border-[#e6e8ea]"><p class="text-[10px] uppercase font-bold text-[#737784]">Partner Rate</p><span class="text-3xl font-black text-[#00327d]" style="font-family:Manrope">$${parseFloat(specRates[i].value).toFixed(0)}</span><span class="text-sm font-bold text-[#737784]">/hr</span></div></div>`;
+    specCards += `<div class="bg-white p-6 rounded-xl" style="border-left: 4px solid ${colors[i % colors.length]}; box-shadow: 0 32px 64px -12px rgba(25,28,30,0.04);"><div class="mb-4"><p class="text-[10px] font-bold uppercase tracking-widest text-[#737784]">Specialty</p><h5 class="text-xl font-black text-[${g.primaryColor}] uppercase" style="font-family:${g.fontHeadline}">${specNames[i].value}</h5></div><div class="space-y-3"><div><p class="text-[10px] uppercase font-bold text-[#737784]">Primary Tooling</p><p class="text-sm font-medium">${specTools[i].value}</p></div><div><p class="text-[10px] uppercase font-bold text-[#737784]">Avg Experience</p><p class="text-sm font-medium">${specExps[i].value}</p></div></div><div class="mt-6 pt-4 border-t border-[#e6e8ea]"><p class="text-[10px] uppercase font-bold text-[#737784]">Partner Rate</p><span class="text-3xl font-black text-[${g.primaryColor}]" style="font-family:${g.fontHeadline}">$${parseFloat(specRates[i].value).toFixed(0)}</span><span class="text-sm font-bold text-[#737784]">/hr</span></div></div>`;
   }
 
   const teamSection = document.getElementById('rcTeamToggle')?.checked ? buildTeamSectionHTML() : '';
 
-  return `${getSharedHead('Service & Rate Card')}<body class="bg-[#f7f9fb] text-[#191c1e]" style="font-family:Inter,sans-serif">${getSharedNav('services')}<main class="max-w-6xl mx-auto px-8 py-12"><section class="mb-12"><h1 class="text-4xl font-bold tracking-tight text-[#00327d] leading-tight mb-4" style="font-family:Manrope">Service & Rate Card</h1><div class="flex items-center gap-6"><div><p class="text-[10px] font-bold uppercase tracking-widest text-[#737784]">Prepared For</p><p class="text-xl font-bold text-[#00327d]" style="font-family:Manrope">${clientName}</p></div><div><p class="text-[10px] font-bold uppercase tracking-widest text-[#737784]">Partner Tier</p><p class="text-xl font-bold text-[#00327d]" style="font-family:Manrope">${tier}</p></div><div><p class="text-[10px] font-bold uppercase tracking-widest text-[#737784]">Year</p><p class="text-xl font-bold text-[#00327d]" style="font-family:Manrope">${year}</p></div><div><p class="text-[10px] font-bold uppercase tracking-widest text-[#737784]">Volume Discount</p><p class="text-xl font-bold text-[#b6171e]" style="font-family:Manrope">${discount}%</p></div></div></section><section class="mb-16"><h2 class="text-2xl font-extrabold tracking-tight mb-6" style="font-family:Manrope; border-bottom: 1px solid #c3c6d5; padding-bottom: 1rem;">Managed Support Tiers</h2><div class="bg-white rounded-xl overflow-hidden" style="box-shadow:0 32px 64px -12px rgba(25,28,30,0.04)"><table class="w-full text-left"><thead><tr class="bg-[#f2f4f6]"><th class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-[#737784]">Role</th><th class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-[#737784]">Primary Skills</th><th class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-[#737784] text-center">Experience</th><th class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-[#737784] text-right">Partner Rate</th></tr></thead><tbody class="divide-y divide-[#e6e8ea]">${supportRows}</tbody></table></div></section><section class="mb-16"><h2 class="text-2xl font-extrabold tracking-tight mb-6" style="font-family:Manrope; border-bottom: 1px solid #c3c6d5; padding-bottom: 1rem;">Engineering Specialties</h2><div class="grid grid-cols-1 md:grid-cols-${Math.min(specNames.length, 3)} gap-6">${specCards}</div></section>${teamSection}<section class="bg-[#00327d] p-10 rounded-xl text-white text-center"><h3 class="text-2xl font-black uppercase mb-2" style="font-family:Manrope">Ready to Scale?</h3><p class="text-blue-100/80 mb-6">Contact JSM Consulting to discuss your custom staffing solution.</p><button class="bg-white text-[#00327d] px-8 py-3 rounded-lg font-black uppercase tracking-widest text-xs">Request Strategic Staffing Plan</button></section></main>${getSharedFooter()}</body></html>`;
+  // Service Notes section
+  const serviceNotesHTML = rc.showServiceNotes && rc.serviceNotes && rc.serviceNotes.length > 0 ? `<section class="mb-16"><div class="bg-[#f2f4f6] p-8 rounded-xl"><h3 class="text-lg font-bold text-[${g.primaryColor}] mb-4" style="font-family:${g.fontHeadline}">Service Notes</h3><ul class="space-y-2 text-sm text-[#434653]">${rc.serviceNotes.map(n => `<li class="flex items-start gap-2"><span class="text-[${g.secondaryColor}] mt-0.5">&#x2022;</span>${n}</li>`).join('')}</ul></div></section>` : '';
+
+  // Hero section
+  const heroHTML = rc.showHero ? `<section class="mb-12"><h1 class="text-4xl font-bold tracking-tight text-[${g.primaryColor}] leading-tight mb-4" style="font-family:${g.fontHeadline}">${rc.heroHeadline}</h1><p class="text-[#434653] mb-6 italic">${rc.heroSubtitle}</p><div class="flex items-center gap-6"><div><p class="text-[10px] font-bold uppercase tracking-widest text-[#737784]">Prepared For</p><p class="text-xl font-bold text-[${g.primaryColor}]" style="font-family:${g.fontHeadline}">${clientName}</p></div><div><p class="text-[10px] font-bold uppercase tracking-widest text-[#737784]">Partner Tier</p><p class="text-xl font-bold text-[${g.primaryColor}]" style="font-family:${g.fontHeadline}">${tier}</p></div><div><p class="text-[10px] font-bold uppercase tracking-widest text-[#737784]">Year</p><p class="text-xl font-bold text-[${g.primaryColor}]" style="font-family:${g.fontHeadline}">${year}</p></div><div><p class="text-[10px] font-bold uppercase tracking-widest text-[#737784]">Volume Discount</p><p class="text-xl font-bold text-[${g.secondaryColor}]" style="font-family:${g.fontHeadline}">${discount}%</p></div></div></section>` : '';
+
+  // Support table section
+  const supportHTML = rc.showSupportTable ? `<section class="mb-16"><h2 class="text-2xl font-extrabold tracking-tight mb-6" style="font-family:${g.fontHeadline}; border-bottom: 1px solid #c3c6d5; padding-bottom: 1rem;">Managed Support Tiers</h2><div class="bg-white rounded-xl overflow-hidden" style="box-shadow:0 32px 64px -12px rgba(25,28,30,0.04)"><table class="w-full text-left"><thead><tr class="bg-[#f2f4f6]"><th class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-[#737784]">Role</th><th class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-[#737784]">Primary Skills</th><th class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-[#737784] text-center">Experience</th><th class="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-[#737784] text-right">Partner Rate</th></tr></thead><tbody class="divide-y divide-[#e6e8ea]">${supportRows}</tbody></table></div></section>` : '';
+
+  // Specialties section
+  const specsHTML = rc.showSpecialties ? `<section class="mb-16"><h2 class="text-2xl font-extrabold tracking-tight mb-6" style="font-family:${g.fontHeadline}; border-bottom: 1px solid #c3c6d5; padding-bottom: 1rem;">Engineering Specialties</h2><div class="grid grid-cols-1 md:grid-cols-${Math.min(specNames.length, 3)} gap-6">${specCards}</div></section>` : '';
+
+  // CTA section
+  const ctaHTML = rc.showCTA ? `<section class="bg-[${g.primaryColor}] p-10 rounded-xl text-white text-center"><h3 class="text-2xl font-black uppercase mb-2" style="font-family:${g.fontHeadline}">${rc.ctaHeadline}</h3><p class="text-blue-100/80 mb-6">${rc.ctaText}</p><button class="bg-white text-[${g.primaryColor}] px-8 py-3 rounded-lg font-black uppercase tracking-widest text-xs">${rc.ctaButtonText}</button></section>` : '';
+
+  return `${getSharedHead('Service & Rate Card')}<body class="bg-[#f7f9fb] text-[#191c1e]" style="font-family:${g.fontBody},sans-serif">${getSharedNav('services')}<main class="max-w-6xl mx-auto px-8 py-12">${heroHTML}${supportHTML}${specsHTML}${serviceNotesHTML}${teamSection}${ctaHTML}</main>${getSharedFooter()}</body></html>`;
 }
 
 function updateRateCardPreview() {
@@ -1732,13 +1990,15 @@ function addSpecialty() {
 
 // ===== CASE STUDY BUILDER =====
 function buildCaseStudyHTML() {
+  const g = templateConfig.global;
+  const cs = templateConfig.casestudy;
   const title = document.getElementById('csTitle').value;
   const badge = document.getElementById('csBadge').value;
   const division = document.getElementById('csDivision').value;
   const challenge = document.getElementById('csChallenge').value;
   const painPoints = document.getElementById('csPainPoints').value.split('\n').filter(Boolean);
   const icons = ['warning', 'timer', 'block', 'error', 'priority_high'];
-  const painHTML = painPoints.map((p, i) => `<div class="flex items-start gap-3"><span class="material-symbols-outlined text-[#b6171e] pt-1">${icons[i % icons.length]}</span><p class="text-sm font-medium">${p}</p></div>`).join('');
+  const painHTML = painPoints.map((p, i) => `<div class="flex items-start gap-3"><span class="material-symbols-outlined text-[${g.secondaryColor}] pt-1">${icons[i % icons.length]}</span><p class="text-sm font-medium">${p}</p></div>`).join('');
 
   const s1v = document.getElementById('csStat1Val').value, s1l = document.getElementById('csStat1Label').value;
   const s2v = document.getElementById('csStat2Val').value, s2l = document.getElementById('csStat2Label').value;
@@ -1749,7 +2009,17 @@ function buildCaseStudyHTML() {
 
   const teamSection = document.getElementById('csTeamToggle')?.checked ? buildTeamSectionHTML() : '';
 
-  return `${getSharedHead('Case Study')}<body class="bg-[#f7f9fb] text-[#191c1e]" style="font-family:Inter,sans-serif">${getSharedNav('cases')}<main class="max-w-6xl mx-auto px-8 py-12"><header class="mb-16"><div class="inline-block bg-[#b6171e] text-white px-4 py-1 rounded-full text-xs font-bold tracking-widest uppercase mb-6">${badge}</div><h1 class="text-5xl md:text-6xl font-extrabold tracking-tighter text-[#00327d] leading-tight mb-6" style="font-family:Manrope">${title}</h1><p class="text-sm text-[#434653] font-medium">${division}</p></header><section class="bg-[#f2f4f6] p-10 rounded-xl mb-16"><h2 class="text-2xl font-extrabold text-[#00327d] uppercase tracking-tight mb-6" style="font-family:Manrope">The Challenge</h2><p class="text-lg text-[#434653] leading-relaxed mb-8">${challenge}</p><div class="space-y-4">${painHTML}</div></section><section class="bg-[#00327d] rounded-2xl p-12 md:p-16 text-white mb-16"><div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center"><div><p class="text-[#b6171e] font-black text-6xl mb-2" style="font-family:Manrope">${s1v}</p><p class="text-xs uppercase tracking-[0.2em] font-bold opacity-70">${s1l}</p></div><div><p class="text-white font-black text-6xl mb-2" style="font-family:Manrope">${s2v}</p><p class="text-xs uppercase tracking-[0.2em] font-bold opacity-70">${s2l}</p></div><div><p class="text-white font-black text-6xl mb-2" style="font-family:Manrope">${s3v}</p><p class="text-xs uppercase tracking-[0.2em] font-bold opacity-70">${s3l}</p></div></div></section><section class="mb-16"><h3 class="text-2xl font-extrabold text-[#00327d] mb-6 italic" style="font-family:Manrope">"${quote}"</h3><div class="flex items-center gap-4"><div><p class="font-bold text-[#00327d]">${author}</p><p class="text-sm text-[#434653] uppercase tracking-widest">${company}</p></div></div></section>${teamSection}<section class="py-16 text-center"><h2 class="text-3xl font-extrabold text-[#00327d] mb-6" style="font-family:Manrope">Need Nimble Deployment?</h2><p class="max-w-2xl mx-auto text-[#434653] mb-8">Our Nexus Elite pool is pre-vetted and ready for 48-hour deployment into your infrastructure.</p><button class="bg-[#00327d] text-white px-10 py-4 rounded-lg font-bold text-lg">Book a Nimble Audit</button></section></main>${getSharedFooter()}</body></html>`;
+  const heroHTML = cs.showHero ? `<header class="mb-16"><div class="inline-block bg-[${g.secondaryColor}] text-white px-4 py-1 rounded-full text-xs font-bold tracking-widest uppercase mb-6">${badge}</div><h1 class="text-5xl md:text-6xl font-extrabold tracking-tighter text-[${g.primaryColor}] leading-tight mb-6" style="font-family:${g.fontHeadline}">${title}</h1><p class="text-sm text-[#434653] font-medium">${division}</p></header>` : '';
+
+  const challengeHTML = cs.showChallenge ? `<section class="bg-[#f2f4f6] p-10 rounded-xl mb-16"><h2 class="text-2xl font-extrabold text-[${g.primaryColor}] uppercase tracking-tight mb-6" style="font-family:${g.fontHeadline}">The Challenge</h2><p class="text-lg text-[#434653] leading-relaxed mb-8">${challenge}</p><div class="space-y-4">${painHTML}</div></section>` : '';
+
+  const statsHTML = cs.showStats ? `<section class="bg-[${g.primaryColor}] rounded-2xl p-12 md:p-16 text-white mb-16"><div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center"><div><p class="text-[${g.secondaryColor}] font-black text-6xl mb-2" style="font-family:${g.fontHeadline}">${s1v}</p><p class="text-xs uppercase tracking-[0.2em] font-bold opacity-70">${s1l}</p></div><div><p class="text-white font-black text-6xl mb-2" style="font-family:${g.fontHeadline}">${s2v}</p><p class="text-xs uppercase tracking-[0.2em] font-bold opacity-70">${s2l}</p></div><div><p class="text-white font-black text-6xl mb-2" style="font-family:${g.fontHeadline}">${s3v}</p><p class="text-xs uppercase tracking-[0.2em] font-bold opacity-70">${s3l}</p></div></div></section>` : '';
+
+  const testimonialHTML = cs.showTestimonial ? `<section class="mb-16"><h3 class="text-2xl font-extrabold text-[${g.primaryColor}] mb-6 italic" style="font-family:${g.fontHeadline}">"${quote}"</h3><div class="flex items-center gap-4"><div><p class="font-bold text-[${g.primaryColor}]">${author}</p><p class="text-sm text-[#434653] uppercase tracking-widest">${company}</p></div></div></section>` : '';
+
+  const ctaHTML = cs.showCTA ? `<section class="py-16 text-center"><h2 class="text-3xl font-extrabold text-[${g.primaryColor}] mb-6" style="font-family:${g.fontHeadline}">${cs.ctaHeadline}</h2><p class="max-w-2xl mx-auto text-[#434653] mb-8">${cs.ctaText}</p><button class="bg-[${g.primaryColor}] text-white px-10 py-4 rounded-lg font-bold text-lg">${cs.ctaButtonText}</button></section>` : '';
+
+  return `${getSharedHead('Case Study')}<body class="bg-[#f7f9fb] text-[#191c1e]" style="font-family:${g.fontBody},sans-serif">${getSharedNav('cases')}<main class="max-w-6xl mx-auto px-8 py-12">${heroHTML}${challengeHTML}${statsHTML}${testimonialHTML}${teamSection}${ctaHTML}</main>${getSharedFooter()}</body></html>`;
 }
 
 function updateCaseStudyPreview() {
@@ -1772,15 +2042,17 @@ function exportCaseStudy() {
 
 // ===== PITCH DECK BUILDER =====
 function buildPitchDeckHTML() {
+  const g = templateConfig.global;
+  const pd = templateConfig.pitchdeck;
   const target = document.getElementById('pdTarget').value;
   const industry = document.getElementById('pdIndustry').value;
   const headline = document.getElementById('pdHeadline').value;
   const valueProps = document.getElementById('pdValueProps').value.split('\n').filter(Boolean);
   const services = document.getElementById('pdServices').value.split('\n').filter(Boolean);
-  const vpHTML = valueProps.map(v => `<div class="flex items-center gap-3 px-5 py-4 bg-white rounded-xl"><span class="material-symbols-outlined text-[#b6171e]">check_circle</span><span class="font-medium">${v}</span></div>`).join('');
+  const vpHTML = valueProps.map(v => `<div class="flex items-center gap-3 px-5 py-4 bg-white rounded-xl"><span class="material-symbols-outlined text-[${g.secondaryColor}]">check_circle</span><span class="font-medium">${v}</span></div>`).join('');
   const svcHTML = services.map((s, i) => {
     const icons = ['support_agent', 'cloud', 'security', 'code', 'storage', 'hub'];
-    return `<div class="bg-white p-8 rounded-2xl"><span class="material-symbols-outlined text-[#00327d] text-3xl mb-4">${icons[i % icons.length]}</span><h4 class="font-bold text-lg text-[#00327d] mb-2" style="font-family:Manrope">${s}</h4><p class="text-sm text-[#434653]">Pre-vetted specialists ready for 48-hour deployment.</p></div>`;
+    return `<div class="bg-white p-8 rounded-2xl"><span class="material-symbols-outlined text-[${g.primaryColor}] text-3xl mb-4">${icons[i % icons.length]}</span><h4 class="font-bold text-lg text-[${g.primaryColor}] mb-2" style="font-family:${g.fontHeadline}">${s}</h4><p class="text-sm text-[#434653]">Pre-vetted specialists ready for 48-hour deployment.</p></div>`;
   }).join('');
 
   const s1v = document.getElementById('pdStat1Val').value, s1l = document.getElementById('pdStat1Label').value;
@@ -1790,13 +2062,23 @@ function buildPitchDeckHTML() {
 
   const teamSection = document.getElementById('pdTeamToggle')?.checked ? buildTeamSectionHTML() : '';
 
-  return `${getSharedHead('Pitch Deck')}<body class="bg-[#f7f9fb] text-[#191c1e]" style="font-family:Inter,sans-serif">${getSharedNav('services')}<main>
-  <section class="min-h-[80vh] flex items-center bg-[#f7f9fb] px-8"><div class="max-w-6xl mx-auto w-full"><div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#ffdad6] text-[#b6171e] text-xs font-bold tracking-widest uppercase mb-6"><span class="w-2 h-2 rounded-full bg-[#b6171e] animate-pulse"></span> Prepared for ${target}</div><h1 class="text-6xl md:text-7xl font-extrabold text-[#00327d] tracking-tighter leading-[0.95] mb-6" style="font-family:Manrope">${headline}</h1><p class="text-xl text-[#434653] max-w-2xl mb-8">High-utility IT staffing and partnership models designed for ${industry}. We deploy validated expertise in under 48 hours.</p><div class="flex gap-4"><button class="bg-[#0047ab] text-white px-10 py-4 rounded-lg font-bold text-lg shadow-lg">Scale Your Team</button><button class="bg-[#e0e3e5] text-[#00327d] px-10 py-4 rounded-lg font-bold text-lg">View Talent Pool</button></div></div></section>
-  <section class="py-16 bg-[#f2f4f6] px-8"><div class="max-w-6xl mx-auto"><h2 class="text-3xl font-extrabold text-[#00327d] mb-8 text-center" style="font-family:Manrope">Why Partner with JSM</h2><div class="grid grid-cols-1 md:grid-cols-2 gap-4">${vpHTML}</div></div></section>
-  <section class="py-16 px-8"><div class="max-w-6xl mx-auto"><h2 class="text-3xl font-extrabold text-[#00327d] mb-8" style="font-family:Manrope">Our Services</h2><div class="grid grid-cols-1 md:grid-cols-3 gap-6">${svcHTML}</div></div></section>
-  <section class="py-16 bg-[#00327d] px-8"><div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center"><div><div class="text-4xl font-extrabold text-white mb-1" style="font-family:Manrope">${s1v}</div><div class="text-[10px] font-bold uppercase tracking-widest text-blue-200/70">${s1l}</div></div><div><div class="text-4xl font-extrabold text-white mb-1" style="font-family:Manrope">${s2v}</div><div class="text-[10px] font-bold uppercase tracking-widest text-blue-200/70">${s2l}</div></div><div><div class="text-4xl font-extrabold text-white mb-1" style="font-family:Manrope">${s3v}</div><div class="text-[10px] font-bold uppercase tracking-widest text-blue-200/70">${s3l}</div></div><div><div class="text-4xl font-extrabold text-white mb-1" style="font-family:Manrope">${s4v}</div><div class="text-[10px] font-bold uppercase tracking-widest text-blue-200/70">${s4l}</div></div></div></section>
+  const heroHTML = pd.showHero ? `<section class="min-h-[80vh] flex items-center bg-[#f7f9fb] px-8"><div class="max-w-6xl mx-auto w-full"><div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#ffdad6] text-[${g.secondaryColor}] text-xs font-bold tracking-widest uppercase mb-6"><span class="w-2 h-2 rounded-full bg-[${g.secondaryColor}] animate-pulse"></span> Prepared for ${target}</div><h1 class="text-6xl md:text-7xl font-extrabold text-[${g.primaryColor}] tracking-tighter leading-[0.95] mb-6" style="font-family:${g.fontHeadline}">${headline}</h1><p class="text-xl text-[#434653] max-w-2xl mb-8">High-utility IT staffing and partnership models designed for ${industry}. We deploy validated expertise in under 48 hours.</p><div class="flex gap-4"><button class="bg-[${g.accentColor}] text-white px-10 py-4 rounded-lg font-bold text-lg shadow-lg">Scale Your Team</button><button class="bg-[#e0e3e5] text-[${g.primaryColor}] px-10 py-4 rounded-lg font-bold text-lg">View Talent Pool</button></div></div></section>` : '';
+
+  const vpSectionHTML = pd.showValueProps ? `<section class="py-16 bg-[#f2f4f6] px-8"><div class="max-w-6xl mx-auto"><h2 class="text-3xl font-extrabold text-[${g.primaryColor}] mb-8 text-center" style="font-family:${g.fontHeadline}">Why Partner with ${g.companyName}</h2><div class="grid grid-cols-1 md:grid-cols-2 gap-4">${vpHTML}</div></div></section>` : '';
+
+  const svcSectionHTML = pd.showServices ? `<section class="py-16 px-8"><div class="max-w-6xl mx-auto"><h2 class="text-3xl font-extrabold text-[${g.primaryColor}] mb-8" style="font-family:${g.fontHeadline}">Our Services</h2><div class="grid grid-cols-1 md:grid-cols-3 gap-6">${svcHTML}</div></div></section>` : '';
+
+  const statsHTML = pd.showStats ? `<section class="py-16 bg-[${g.primaryColor}] px-8"><div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center"><div><div class="text-4xl font-extrabold text-white mb-1" style="font-family:${g.fontHeadline}">${s1v}</div><div class="text-[10px] font-bold uppercase tracking-widest text-blue-200/70">${s1l}</div></div><div><div class="text-4xl font-extrabold text-white mb-1" style="font-family:${g.fontHeadline}">${s2v}</div><div class="text-[10px] font-bold uppercase tracking-widest text-blue-200/70">${s2l}</div></div><div><div class="text-4xl font-extrabold text-white mb-1" style="font-family:${g.fontHeadline}">${s3v}</div><div class="text-[10px] font-bold uppercase tracking-widest text-blue-200/70">${s3l}</div></div><div><div class="text-4xl font-extrabold text-white mb-1" style="font-family:${g.fontHeadline}">${s4v}</div><div class="text-[10px] font-bold uppercase tracking-widest text-blue-200/70">${s4l}</div></div></div></section>` : '';
+
+  const ctaHTML = pd.showCTA ? `<section class="py-20 px-8"><div class="max-w-4xl mx-auto bg-[${g.primaryColor}] rounded-3xl p-12 md:p-16 text-center text-white"><h2 class="text-4xl font-bold mb-6" style="font-family:${g.fontHeadline}">${pd.ctaHeadline}</h2><p class="text-blue-100/80 text-lg mb-8">${pd.ctaText}</p><div class="flex justify-center gap-4"><button class="bg-[${g.secondaryColor}] text-white px-10 py-4 rounded-lg font-bold text-lg shadow-xl">${pd.ctaButton1}</button><button class="bg-white/10 text-white px-10 py-4 rounded-lg font-bold text-lg border border-white/20">${pd.ctaButton2}</button></div></div></section>` : '';
+
+  return `${getSharedHead('Pitch Deck')}<body class="bg-[#f7f9fb] text-[#191c1e]" style="font-family:${g.fontBody},sans-serif">${getSharedNav('services')}<main>
+  ${heroHTML}
+  ${vpSectionHTML}
+  ${svcSectionHTML}
+  ${statsHTML}
   ${teamSection}
-  <section class="py-20 px-8"><div class="max-w-4xl mx-auto bg-[#00327d] rounded-3xl p-12 md:p-16 text-center text-white"><h2 class="text-4xl font-bold mb-6" style="font-family:Manrope">Ready to architect your future-proof team?</h2><p class="text-blue-100/80 text-lg mb-8">Partner with JSM Consulting and experience the power of nimble, diverse, and elite IT staff augmentation.</p><div class="flex justify-center gap-4"><button class="bg-[#b6171e] text-white px-10 py-4 rounded-lg font-bold text-lg shadow-xl">Start Hiring Now</button><button class="bg-white/10 text-white px-10 py-4 rounded-lg font-bold text-lg border border-white/20">Talk to an Expert</button></div></div></section>
+  ${ctaHTML}
   </main>${getSharedFooter()}</body></html>`;
 }
 
@@ -1968,7 +2250,7 @@ function showToast(msg) {
 }
 
 // ===== AUTO-UPDATE PREVIEWS =====
-document.addEventListener('input', (e) => {
+function debouncePreview() {
   if (currentPage === 'ratecard') {
     clearTimeout(window._rcTimer);
     window._rcTimer = setTimeout(updateRateCardPreview, 500);
@@ -1981,10 +2263,229 @@ document.addEventListener('input', (e) => {
     clearTimeout(window._pdTimer);
     window._pdTimer = setTimeout(updatePitchDeckPreview, 500);
   }
-});
+}
+document.addEventListener('input', debouncePreview);
+document.addEventListener('change', debouncePreview);
+
+// ===== TEMPLATE CONFIG SYSTEM =====
+const defaultTemplateConfig = {
+  global: {
+    primaryColor: '#00327d',
+    secondaryColor: '#b6171e',
+    tertiaryColor: '#2c374a',
+    accentColor: '#0047ab',
+    fontHeadline: 'Manrope',
+    fontBody: 'Inter',
+    companyName: 'JSM Consulting',
+    tagline: 'Precision in Talent.',
+    footerYear: '2026'
+  },
+  ratecard: {
+    showHero: true,
+    showSupportTable: true,
+    showSpecialties: true,
+    showServiceNotes: true,
+    showCTA: true,
+    showTeam: false,
+    heroHeadline: 'Service & Rate Card',
+    heroSubtitle: 'Nimble action. Architected precision.',
+    ctaHeadline: 'Ready to Scale?',
+    ctaText: 'Contact JSM Consulting to discuss your custom staffing solution.',
+    ctaButtonText: 'Request Strategic Staffing Plan',
+    serviceNotes: [
+      'White-labeled email and Slack integration included in all tiers.',
+      '24/7 Global NOC availability for L2/L3 tiers at 1.5x weekend multiplier.',
+      'Minimum commitment of 20 hours/week per resource required.'
+    ]
+  },
+  casestudy: {
+    showHero: true,
+    showChallenge: true,
+    showStats: true,
+    showTestimonial: true,
+    showCTA: true,
+    showTeam: false,
+    ctaHeadline: 'Need Nimble Deployment?',
+    ctaText: 'Our Nexus Elite pool is pre-vetted and ready for 48-hour deployment into your infrastructure.',
+    ctaButtonText: 'Book a Nimble Audit'
+  },
+  pitchdeck: {
+    showHero: true,
+    showValueProps: true,
+    showServices: true,
+    showStats: true,
+    showCTA: true,
+    showTeam: false,
+    ctaHeadline: 'Ready to architect your future-proof team?',
+    ctaText: 'Partner with JSM Consulting and experience the power of nimble, diverse, and elite IT staff augmentation.',
+    ctaButton1: 'Start Hiring Now',
+    ctaButton2: 'Talk to an Expert'
+  }
+};
+
+let templateConfig = loadTemplateConfig();
+
+function loadTemplateConfig() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('jsm_template_config') || 'null');
+    if (!saved) return JSON.parse(JSON.stringify(defaultTemplateConfig));
+    // Deep merge with defaults to pick up any new keys
+    const merged = JSON.parse(JSON.stringify(defaultTemplateConfig));
+    for (const section of Object.keys(merged)) {
+      if (saved[section]) {
+        for (const key of Object.keys(merged[section])) {
+          if (saved[section][key] !== undefined) merged[section][key] = saved[section][key];
+        }
+      }
+    }
+    return merged;
+  } catch (e) {
+    return JSON.parse(JSON.stringify(defaultTemplateConfig));
+  }
+}
+
+function saveTemplateConfig() {
+  localStorage.setItem('jsm_template_config', JSON.stringify(templateConfig));
+}
+
+function resetTemplateConfig(type) {
+  if (type === 'all') {
+    templateConfig = JSON.parse(JSON.stringify(defaultTemplateConfig));
+    localStorage.removeItem('jsm_template_config');
+    syncDesignPanel('ratecard');
+    syncDesignPanel('casestudy');
+    syncDesignPanel('pitchdeck');
+    showToast('All template designs reset to defaults!');
+  } else if (defaultTemplateConfig[type]) {
+    templateConfig[type] = JSON.parse(JSON.stringify(defaultTemplateConfig[type]));
+    if (type !== 'global') {
+      // Also reset global colors
+      templateConfig.global = JSON.parse(JSON.stringify(defaultTemplateConfig.global));
+    }
+    saveTemplateConfig();
+  }
+}
+
+function exportTemplateConfig() {
+  const blob = new Blob([JSON.stringify(templateConfig, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'jsm_template_config.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Template config exported!');
+}
+
+function importTemplateConfig(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const imported = JSON.parse(e.target.result);
+      if (imported.global && imported.ratecard) {
+        templateConfig = imported;
+        saveTemplateConfig();
+        syncDesignPanel('ratecard');
+        syncDesignPanel('casestudy');
+        syncDesignPanel('pitchdeck');
+        showToast('Template config imported successfully!');
+        // Trigger preview updates
+        if (currentPage === 'ratecard') updateRateCardPreview();
+        if (currentPage === 'casestudy') updateCaseStudyPreview();
+        if (currentPage === 'pitchdeck') updatePitchDeckPreview();
+      } else {
+        showToast('Invalid config file format.');
+      }
+    } catch (err) {
+      showToast('Error reading config file: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+}
+
+function updateDesignSetting(section, key, value) {
+  templateConfig[section][key] = value;
+  saveTemplateConfig();
+  // Update hex display labels for color pickers
+  if (section === 'global') {
+    const prefixes = ['rc', 'cs', 'pd'];
+    const colorMap = { primaryColor: 'Primary', secondaryColor: 'Secondary', accentColor: 'Accent' };
+    if (colorMap[key]) {
+      prefixes.forEach(p => {
+        const hexSpan = document.getElementById(p + 'Cfg' + colorMap[key] + 'Hex');
+        if (hexSpan) hexSpan.textContent = value;
+        // Sync color pickers across all panels
+        const picker = document.getElementById(p + 'Cfg' + colorMap[key]);
+        if (picker && picker.value !== value) picker.value = value;
+      });
+    }
+  }
+  // Debounced preview update
+  clearTimeout(window._designTimer);
+  window._designTimer = setTimeout(() => {
+    if (currentPage === 'ratecard') updateRateCardPreview();
+    if (currentPage === 'casestudy') updateCaseStudyPreview();
+    if (currentPage === 'pitchdeck') updatePitchDeckPreview();
+  }, 300);
+}
+
+function syncDesignPanel(type) {
+  const g = templateConfig.global;
+  const prefix = type === 'ratecard' ? 'rc' : type === 'casestudy' ? 'cs' : 'pd';
+
+  // Sync color pickers
+  const pc = document.getElementById(prefix + 'CfgPrimary');
+  if (pc) { pc.value = g.primaryColor; document.getElementById(prefix + 'CfgPrimaryHex').textContent = g.primaryColor; }
+  const sc = document.getElementById(prefix + 'CfgSecondary');
+  if (sc) { sc.value = g.secondaryColor; document.getElementById(prefix + 'CfgSecondaryHex').textContent = g.secondaryColor; }
+  const ac = document.getElementById(prefix + 'CfgAccent');
+  if (ac) { ac.value = g.accentColor; document.getElementById(prefix + 'CfgAccentHex').textContent = g.accentColor; }
+
+  const cfg = templateConfig[type];
+  if (!cfg) return;
+
+  if (type === 'ratecard') {
+    const el = (id) => document.getElementById(id);
+    if (el('rcCfgShowHero')) el('rcCfgShowHero').checked = cfg.showHero;
+    if (el('rcCfgShowSupport')) el('rcCfgShowSupport').checked = cfg.showSupportTable;
+    if (el('rcCfgShowSpecs')) el('rcCfgShowSpecs').checked = cfg.showSpecialties;
+    if (el('rcCfgShowNotes')) el('rcCfgShowNotes').checked = cfg.showServiceNotes;
+    if (el('rcCfgShowCTA')) el('rcCfgShowCTA').checked = cfg.showCTA;
+    if (el('rcCfgCtaHeadline')) el('rcCfgCtaHeadline').value = cfg.ctaHeadline;
+    if (el('rcCfgCtaText')) el('rcCfgCtaText').value = cfg.ctaText;
+    if (el('rcCfgCtaBtn')) el('rcCfgCtaBtn').value = cfg.ctaButtonText;
+    if (el('rcCfgServiceNotes')) el('rcCfgServiceNotes').value = (cfg.serviceNotes || []).join('\n');
+  } else if (type === 'casestudy') {
+    const el = (id) => document.getElementById(id);
+    if (el('csCfgShowHero')) el('csCfgShowHero').checked = cfg.showHero;
+    if (el('csCfgShowChallenge')) el('csCfgShowChallenge').checked = cfg.showChallenge;
+    if (el('csCfgShowStats')) el('csCfgShowStats').checked = cfg.showStats;
+    if (el('csCfgShowTestimonial')) el('csCfgShowTestimonial').checked = cfg.showTestimonial;
+    if (el('csCfgShowCTA')) el('csCfgShowCTA').checked = cfg.showCTA;
+    if (el('csCfgCtaHeadline')) el('csCfgCtaHeadline').value = cfg.ctaHeadline;
+    if (el('csCfgCtaText')) el('csCfgCtaText').value = cfg.ctaText;
+    if (el('csCfgCtaBtn')) el('csCfgCtaBtn').value = cfg.ctaButtonText;
+  } else if (type === 'pitchdeck') {
+    const el = (id) => document.getElementById(id);
+    if (el('pdCfgShowHero')) el('pdCfgShowHero').checked = cfg.showHero;
+    if (el('pdCfgShowValueProps')) el('pdCfgShowValueProps').checked = cfg.showValueProps;
+    if (el('pdCfgShowServices')) el('pdCfgShowServices').checked = cfg.showServices;
+    if (el('pdCfgShowStats')) el('pdCfgShowStats').checked = cfg.showStats;
+    if (el('pdCfgShowCTA')) el('pdCfgShowCTA').checked = cfg.showCTA;
+    if (el('pdCfgCtaHeadline')) el('pdCfgCtaHeadline').value = cfg.ctaHeadline;
+    if (el('pdCfgCtaText')) el('pdCfgCtaText').value = cfg.ctaText;
+    if (el('pdCfgCtaBtn1')) el('pdCfgCtaBtn1').value = cfg.ctaButton1;
+    if (el('pdCfgCtaBtn2')) el('pdCfgCtaBtn2').value = cfg.ctaButton2;
+  }
+}
 
 // ===== INIT =====
 updateClientSelector();
+// Sync design panels on load
+syncDesignPanel('ratecard');
+syncDesignPanel('casestudy');
+syncDesignPanel('pitchdeck');
 navigateTo('dashboard');
 </script>
 </body>
